@@ -26,6 +26,16 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.meizu.client.MyRoomActivity" >
+        </activity>
+        
+        <service 
+            android:name="com.meizu.client.ConnectService"
+            android:exported="false">
+            <intent-filter android:priority="1000"></intent-filter>
+        </service>
+        
     </application>
 
 </manifest>

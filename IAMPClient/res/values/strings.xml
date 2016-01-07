@@ -2,7 +2,13 @@
 <resources>
 
     <string name="app_name">IAMP</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">settings</string>
+    <string name="auth_name">手机端技术支持</string>
+    <string name="crate_room">创建房间</string>
+    <string name="join_room">进入房间</string>
+    <string name="quit_room">退出房间</string>
+    <string name="room_number">房号:</string>
+    <string name="devices_count">设备数:</string>
+    <string name="logo">logo</string>
 
 </resources>

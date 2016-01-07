@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/room_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:text="@string/room_number"/>
+        
+        <TextView
+            android:id="@+id/devices_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/devices_count" />
+        
+        <Button
+        android:id="@+id/quit_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="quit"
+        android:text="@string/quit_room" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/requestlistview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

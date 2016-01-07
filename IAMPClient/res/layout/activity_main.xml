@@ -2,48 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="input message" />
-        
-     <Button
-        android:id="@+id/create"
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="send"
-        android:text="创建房间" />
-     
-     <Button
-        android:id="@+id/join"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo" />
+
+    <Button
+        android:id="@+id/crate_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="send"
-        android:text="进入房间" />
-     
-     <Button
-        android:id="@+id/request"
+        android:onClick="room"
+        android:text="@string/crate_room" />
+
+    <Button
+        android:id="@+id/join_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="send"
-        android:text="发起请求" />
-     
-     <Button
-        android:id="@+id/quit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="send"
-        android:text="退出房间" />
+        android:onClick="room"
+        android:text="@string/join_room" />
 
     <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
+        android:id="@+id/auth_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="" />
-
-
+        android:text="@string/auth_name" />
 
 </LinearLayout>

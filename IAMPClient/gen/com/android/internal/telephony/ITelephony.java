@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\new\\IAMPClient\\src\\com\\android\\internal\\telephony\\ITelephony.aidl
+ * Original file: E:\\GitHub\\IAMP\\IAMPClient\\src\\com\\android\\internal\\telephony\\ITelephony.aidl
  */
 package com.android.internal.telephony;
 /**
