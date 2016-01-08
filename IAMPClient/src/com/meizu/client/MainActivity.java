@@ -34,11 +34,6 @@ public class MainActivity extends Activity {
 		
 	}
 	
-	private void startConnectService(){
-		Intent service = new Intent(this, ConnectService.class);
-		startService(service);
-	}
-	
 	public void room(View view){
 		switch (view.getId()) {
 		
@@ -68,6 +63,10 @@ public class MainActivity extends Activity {
 		Intent create = new Intent(BrocastAction.CREATE_ROOM);
 		sendBroadcast(create);
 	}
-
+	
+	private void startConnectService(){
+		Intent service = new Intent(this, ConnectService.class);
+		startService(service);
+	}
 
 }

@@ -56,6 +56,7 @@ public class MyRoomActivity extends Activity {
 			}
 		});
 	}
+	
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -84,5 +85,5 @@ public class MyRoomActivity extends Activity {
 		Intent request = new Intent(action);
 		sendBroadcast(request);
 	}
-
+	
 }

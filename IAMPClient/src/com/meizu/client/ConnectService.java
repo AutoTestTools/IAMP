@@ -22,10 +22,9 @@ public class ConnectService extends Service {
 
 		mContext = getApplicationContext();
 		
-		initSocket();
-
 		createNotification();
 		
+		initSocket();
 	}
 
 	@Override
@@ -53,7 +52,7 @@ public class ConnectService extends Service {
 
 		NotificationManager manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-		PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(this, MyRoomActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
 		builder.setContentIntent(intent);
 		builder.setContentTitle("IAMP");
 		builder.setContentText("IAMP Service is Running");
@@ -70,5 +69,5 @@ public class ConnectService extends Service {
 		Intent initSocket = new Intent(BrocastAction.INIT_SOCKET);
 		sendBroadcast(initSocket);
 	}
-
+	
 }
