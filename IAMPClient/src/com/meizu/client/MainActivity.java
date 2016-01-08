@@ -1,5 +1,7 @@
 package com.meizu.client;
 
+import com.meizu.info.BrocastAction;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -57,12 +59,14 @@ public class MainActivity extends Activity {
 
 	private void joinRoom() {
 		// TODO Auto-generated method stub
-		
+		Intent join = new Intent(BrocastAction.JOIN_ROOM);
+		sendBroadcast(join);
 	}
 
 	private void createRoom() {
 		// TODO Auto-generated method stub
-		
+		Intent create = new Intent(BrocastAction.CREATE_ROOM);
+		sendBroadcast(create);
 	}
 
 

@@ -1,0 +1,16 @@
+package com.meizu.info;
+
+public class BrocastAction {
+	
+	public final static String INIT_SOCKET = "com.meizu.socket.init_socket";
+	public final static String INFORM_STATE = "com.meizu.socket.inform_state";
+	public final static String CREATE_ROOM ="com.meizu.socket.create_room";
+	public final static String JOIN_ROOM = "com.meizu.socket.join_room";
+	public final static String QUIT_ROOM = "com.meizu.socket.quit_room";
+	public final static String REQUEST_CALL ="com.meizu.socket.request.call";
+	public final static String REQUEST_MESSAGE = "com.meizu.socket.request.message";
+	
+	public final static String RESPOND_CALL = "com.meizu.socket.respond.call";
+	public final static String RESPOND_MESSAGE = "com.meizu.socket.respond.message";
+
+}

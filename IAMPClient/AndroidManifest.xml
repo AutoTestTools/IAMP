@@ -36,6 +36,35 @@
             <intent-filter android:priority="1000"></intent-filter>
         </service>
         
+        <receiver 
+            android:name="com.meizu.receiver.RequestReceiver"
+            android:exported="false">
+            
+            <intent-filter android:priority="1000">
+                
+                <action android:name="com.meizu.socket.init_socket"/>
+                <action android:name="com.meizu.socket.inform_state"/>
+                <action android:name="com.meizu.socket.create_room"/>
+                <action android:name="com.meizu.socket.join_room"/>
+                <action android:name="com.meizu.socket.quit_room"/>
+                <action android:name="com.meizu.socket.request.call"/>
+                <action android:name="com.meizu.socket.request.message"/>
+                
+            </intent-filter>
+            
+        </receiver>
+        
+        <receiver 
+            android:name="com.meizu.receiver.RespondReceiver"
+            android:exported="false">
+            
+             <intent-filter android:priority="1000">
+               <action android:name="com.meizu.socket.respond.call"/>
+                <action android:name="com.meizu.socket.respond.message"/>
+            </intent-filter>
+            
+        </receiver>
+        
     </application>
 
 </manifest>

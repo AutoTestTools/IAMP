@@ -21,7 +21,7 @@ public class MyServer {
 
 	private boolean isStartServer;
 	
-	private ServerSocket mServer;
+	private static ServerSocket mServer;
 	/**
 	 * 消息队列，用于保存SocketServer接收来自于客户机（手机端）的消息
 	 */

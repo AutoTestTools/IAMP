@@ -1,5 +1,6 @@
 package com.meizu.info;
 
+
 public class Properties {
 
 	public static String IP = "172.16.11.36";
@@ -11,10 +12,5 @@ public class Properties {
 	public final static int JOIN_ROOM = 3;
 	public final static int QUIT_ROOM = 4;
 	public final static int REQUEST = 5;
-	
-//	public static int ROOM_KEY = 0;
-//	public static int CALL = 1;
-//	public static int MESSAGE = 2;
-//	
 	
 }
