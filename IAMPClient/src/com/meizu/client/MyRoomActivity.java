@@ -5,10 +5,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,15 +27,21 @@ public class MyRoomActivity extends Activity {
 	List<String> title;
 	ListView lv;
 	static Context mContext;
+	Notification notification;
+	NotificationManager manager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.room);
+		
 		mContext = getApplicationContext();
+		manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
 
 		initListView();
+		
+		createNotification();
 
 	}
 
@@ -55,6 +65,13 @@ public class MyRoomActivity extends Activity {
 						}).setNegativeButton("È¡Ïû", null).show();
 			}
 		});
+	}
+	
+	public void quit(View view){
+		Intent quit = new Intent(BrocastAction.QUIT_ROOM);
+		sendBroadcast(quit);
+		manager.cancel(0);
+		onBackPressed();
 	}
 	
 
@@ -84,6 +101,24 @@ public class MyRoomActivity extends Activity {
 		}
 		Intent request = new Intent(action);
 		sendBroadcast(request);
+	}
+	
+	private void createNotification() {
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+        Intent intent = new Intent(this, MyRoomActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		builder.setContentIntent(pendingIntent);
+		builder.setContentTitle("IAMP");
+		builder.setContentText("IAMP Service is Running");
+		builder.setTicker("IAMP Service is Running");
+		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setAutoCancel(false);
+		notification = builder.build();
+		notification.flags |= Notification.FLAG_NO_CLEAR;
+		manager.notify(0, notification);
+
 	}
 	
 }

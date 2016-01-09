@@ -22,8 +22,6 @@ public class ConnectService extends Service {
 
 		mContext = getApplicationContext();
 		
-		createNotification();
-		
 		initSocket();
 	}
 
@@ -45,25 +43,8 @@ public class ConnectService extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-
 	}
 	
-	private void createNotification() {
-
-		NotificationManager manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-		PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(this, MyRoomActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
-		builder.setContentIntent(intent);
-		builder.setContentTitle("IAMP");
-		builder.setContentText("IAMP Service is Running");
-		builder.setTicker("IAMP Service is Running");
-		builder.setSmallIcon(R.drawable.ic_launcher);
-		builder.setAutoCancel(false);
-		Notification notification = builder.build();
-		notification.flags |= Notification.FLAG_NO_CLEAR;
-		manager.notify((int) System.currentTimeMillis(), notification);
-
-	}
 	
 	private void initSocket(){
 		Intent initSocket = new Intent(BrocastAction.INIT_SOCKET);
