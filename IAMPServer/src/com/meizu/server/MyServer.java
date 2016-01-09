@@ -20,7 +20,7 @@ import com.meizu.info.SocketMessage;
 public class MyServer {
 
 	private boolean isStartServer;
-	
+
 	private static ServerSocket mServer;
 	/**
 	 * 消息队列，用于保存SocketServer接收来自于客户机（手机端）的消息
@@ -45,30 +45,73 @@ public class MyServer {
 			int prot = Properties.PORT;// 端口可以自己设置，但要和Client端的端口保持一致
 			mServer = new ServerSocket(prot);// 创建一个ServerSocket
 			System.out.println("启动server,端口：" + prot);
-			
+
 			Socket socket = null;
-			
+
 			// Android（SocketClient）客户机的唯一标志，每个socketID表示一个Android客户机
 			int socketID = 0;
 			
+			//开启删除无效socket线程
+			startDelInvalidThread();
+
 			// 开启发送消息线程
 			startSendMessageThread();
 			
+
 			// 用一个循环来检测是否有新的客户机加入
 			while (isStartServer) {
 				// accept()方法是一个阻塞的方法，调用该方法后，
 				// 该线程会一直阻塞，直到有新的客户机加入，代码才会继续往下走
 				socket = mServer.accept();
+				
 				// 有新的客户机加入后，则创建一个新的SocketThread线程对象
 				SocketThread thread = new SocketThread(socket, socketID++);
 				thread.start();
 				// 将该线程添加到线程队列
 				mThreadList.add(thread);
+				
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	private void startDelInvalidThread() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			@Override
+			public void run() {
+				super.run();
+				while (isStartServer) {
+					if(mThreadList.size()>0){
+						for (SocketThread socketThread : mThreadList) {
+							try {
+								BufferedWriter writer = socketThread.writer;
+								JSONObject json = new JSONObject();
+								json.put("title", "test connecting");
+								writer.write(json.toString() + "\n");
+								writer.flush();
+							} catch (Exception e) {
+								// TODO: handle exception
+								socketThread.destory();
+								mThreadList.remove(socketThread);
+								System.out.println("删除无效socket："+socketThread.socketID);
+								System.out.println("当前设备数：>>>>>"+mThreadList.size());
+								break;
+							}
+						}
+					}
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			};
+		}.start();
 	}
 
 	/**
@@ -89,9 +132,10 @@ public class MyServer {
 						if (mMsgList.size() > 0) {
 							// 读取消息队列中的第一个消息
 							SocketMessage from = mMsgList.get(0);
+							System.out.println("当前设备数：>>>>>"+mThreadList.size());
 							for (SocketThread to : mThreadList) {
-								if (to.info.room!=null && !to.info.imei.equals(from.info.imei) && to.info.room.equals(from.info.room)) {
-									System.out.println("收到消息：>>>>>" + to.info.imei + "from<<<<<"+from.info.imei );
+								if (to.info.room != null && !to.info.imei.equals(from.info.imei) && to.info.room.equals(from.info.room)) {
+									System.out.println("收到消息：>>>>>" + to.info.imei + "from<<<<<" + from.info.imei);
 									BufferedWriter writer = to.writer;
 									JSONObject json = new JSONObject();
 									json.put("title", Properties.REQUEST);
@@ -100,7 +144,8 @@ public class MyServer {
 									json.put("phone", from.info.phone);
 									// writer写进json中的字符串数据，末尾记得加换行符："\n"，否则在客户机端无法识别
 									// 因为BufferedReader.readLine()方法是根据换行符来读取一行的
-									writer.write(json.toString() + "\n");
+									String str = json.toString();
+									writer.write(str + "\n");
 									// 调用flush()方法，刷新流缓冲，把消息推送到手机端
 									writer.flush();
 									System.out.println("推送消息成功：" + from.msg + ">> to " + to.info.imei);
@@ -125,6 +170,7 @@ public class MyServer {
 		public Socket socket;// Socket用于获取输入流、输出流
 		public BufferedWriter writer;// BufferedWriter 用于推送消息
 		public BufferedReader reader;// BufferedReader 用于接收消息
+		public boolean isRunning;
 
 		public SocketThread(Socket socket, int count) {
 			socketID = count;
@@ -136,6 +182,7 @@ public class MyServer {
 		@Override
 		public void run() {
 			super.run();
+			isRunning = true;
 			try {
 				// 初始化BufferedReader
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
@@ -143,7 +190,7 @@ public class MyServer {
 				writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
 				// 如果isStartServer=true，则说明SocketServer已经启动，
 				// 现在需要用一个循环来不断接收来自客户机的消息，并作其他处理
-				while (isStartServer) {
+				while (isRunning) {
 					// 先判断reader是否已经准备好
 					if (reader.ready()) {
 						/*
@@ -155,7 +202,7 @@ public class MyServer {
 						// 将data作为json对象的内容，创建一个json对象
 						JSONObject json = new JSONObject(data);
 						processMsg(json);
-						
+
 					}
 					// 睡眠100ms，每100ms检测一次是否有接收到消息
 					Thread.sleep(100);
@@ -166,36 +213,36 @@ public class MyServer {
 			}
 
 		}
-		
-		private void processMsg(JSONObject json){
 
-			int title = json.getInt("title");
-			
-			System.out.println("请求ID>>>>>>>>"+title);
+		private void processMsg(JSONObject json) {
+
+			String title = json.getString("title");
+
+			System.out.println("请求ID>>>>>>>>" + title);
 
 			switch (title) {
-			
+
 			case Properties.INFORM_NUM:
 				this.info.imei = json.getString("imei");
 				this.info.phone = json.getString("phone");
-				System.out.println("imei>>>>>>>>"+this.info.imei + "  phone>>>>>>"+this.info.phone);
+				System.out.println("imei>>>>>>>>" + this.info.imei + "  phone>>>>>>" + this.info.phone);
 				break;
 
 			case Properties.INFORM_STATE:
 				this.info.isBusy = json.getBoolean("state");
-				System.out.println("state is busy>>>>>>>>"+this.info.isBusy);
+				System.out.println("state is busy>>>>>>>>" + this.info.isBusy);
 				break;
-				
+
 			case Properties.CREATE_ROOM:
 				this.info.room = "A01";
-				System.out.println("room >>>>>>>>"+this.info.room);
+				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
-				
+
 			case Properties.JOIN_ROOM:
 				this.info.room = "A01";
-				System.out.println("room >>>>>>>>"+this.info.room);
+				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
-				
+
 			case Properties.REQUEST:
 				// 创建一个SocketMessage对象，用于接收json中的数据
 				SocketMessage msg = new SocketMessage();
@@ -206,16 +253,16 @@ public class MyServer {
 				mMsgList.add(msg);
 				System.out.println("消息保存成功>>>>>>>");
 				break;
-				
+
 			case Properties.QUIT_ROOM:
 				this.info.room = null;
-				System.out.println("room >>>>>>>>"+this.info.room);
+				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
 
 			default:
 				break;
 			}
-			
+
 		}
 
 		/**
@@ -228,7 +275,11 @@ public class MyServer {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			return sdf.format(d);
 		}
-	}
+		
+		public void destory(){
+			isRunning = false;
+		}
 	
+	}
 
 }
