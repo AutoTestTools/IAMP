@@ -129,7 +129,7 @@ public class SocketServer {
 				try {
 					JSONObject json = new JSONObject();
 					json.put("title", Properties.CREATE_ROOM);
-					json.put("msg", "SSSS");
+					json.put("msg", "create room ");
 					mWriter.write(json.toString() + "\n");
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
@@ -141,7 +141,7 @@ public class SocketServer {
 		}.execute();
 	}
 
-	public void joinRoom() {
+	public void joinRoom(final String room) {
 		new AsyncTask<String, Integer, String>() {
 
 			@Override
@@ -149,7 +149,8 @@ public class SocketServer {
 				try {
 					JSONObject json = new JSONObject();
 					json.put("title", Properties.JOIN_ROOM);
-					json.put("msg", "SSSS");
+					json.put("room", room);
+					json.put("msg", "join room " + room);
 					mWriter.write(json.toString() + "\n");
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
@@ -205,7 +206,7 @@ public class SocketServer {
 		try {
 			JSONObject json = new JSONObject();
 			json.put("title", Properties.QUIT_ROOM);
-			json.put("msg", "SSSS");
+			json.put("msg", "quit room");
 			mWriter.write(json.toString() + "\n");
 			mWriter.flush();
 		} catch (IOException | JSONException e) {

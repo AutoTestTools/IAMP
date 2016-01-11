@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.json.JSONObject;
 
@@ -22,14 +23,12 @@ public class MyServer {
 	private boolean isStartServer;
 
 	private static ServerSocket mServer;
-	/**
-	 * 消息队列，用于保存SocketServer接收来自于客户机（手机端）的消息
-	 */
+	/*** 消息队列，用于保存SocketServer接收来自于客户机（手机端）的消息 */
 	private ArrayList<SocketMessage> mMsgList = new ArrayList<SocketMessage>();
-	/**
-	 * 线程队列，用于接收消息。每个客户机拥有一个线程，每个线程只接收发送给自己的消息
-	 */
+	/*** 线程队列，用于接收消息。每个客户机拥有一个线程，每个线程只接收发送给自己的消息 */
 	private ArrayList<SocketThread> mThreadList = new ArrayList<SocketThread>();
+	/*** 房间管理对象 */
+	private static RoomManager rm = new RoomManager();
 
 	public static void main(String[] args) throws IOException {
 		MyServer server = new MyServer();
@@ -50,26 +49,28 @@ public class MyServer {
 
 			// Android（SocketClient）客户机的唯一标志，每个socketID表示一个Android客户机
 			int socketID = 0;
-			
-			//开启删除无效socket线程
+
+			// 开启删除无效socket线程
 			startDelInvalidThread();
+
+			// 开启删除无效房间线程
+			startDelRoomThread();
 
 			// 开启发送消息线程
 			startSendMessageThread();
-			
 
 			// 用一个循环来检测是否有新的客户机加入
 			while (isStartServer) {
 				// accept()方法是一个阻塞的方法，调用该方法后，
 				// 该线程会一直阻塞，直到有新的客户机加入，代码才会继续往下走
 				socket = mServer.accept();
-				
+
 				// 有新的客户机加入后，则创建一个新的SocketThread线程对象
 				SocketThread thread = new SocketThread(socket, socketID++);
 				thread.start();
 				// 将该线程添加到线程队列
 				mThreadList.add(thread);
-				
+
 			}
 
 		} catch (Exception e) {
@@ -77,28 +78,65 @@ public class MyServer {
 		}
 	}
 
+	private void startDelRoomThread() {
+		// TODO Auto-generated method stub
+		new Thread() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+				while (isStartServer) {
+					Set<String> curRoom = new HashSet<String>();
+					if (mThreadList.size() > 0) {
+						for (SocketThread socketThread : mThreadList) {
+							if (socketThread.info.room != null)
+								curRoom.add(socketThread.info.room);
+						}
+						List<String> roomList = rm.getAllRoom();
+						if (roomList.size() > 0) {
+							for (String room : roomList) {
+								if (!curRoom.contains(room)) {
+									rm.checkOut(room);
+									break;
+								}
+							}
+						}
+						System.out.println("当前房间总数：>>>>>" + rm.getAllRoom().size());
+					}
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+	}
 
+	/** 开启删除无效socket的线程 */
 	private void startDelInvalidThread() {
 		// TODO Auto-generated method stub
-		new Thread(){
+		new Thread() {
 			@Override
 			public void run() {
 				super.run();
 				while (isStartServer) {
-					if(mThreadList.size()>0){
+					if (mThreadList.size() > 0) {
 						for (SocketThread socketThread : mThreadList) {
 							try {
 								BufferedWriter writer = socketThread.writer;
 								JSONObject json = new JSONObject();
 								json.put("title", "test connecting");
+								json.put("msg", "test connecting");
 								writer.write(json.toString() + "\n");
 								writer.flush();
 							} catch (Exception e) {
 								// TODO: handle exception
 								socketThread.destory();
 								mThreadList.remove(socketThread);
-								System.out.println("删除无效socket："+socketThread.socketID);
-								System.out.println("当前设备数：>>>>>"+mThreadList.size());
+								System.out.println("删除无效socket：" + socketThread.socketID);
+								System.out.println("当前设备数：>>>>>" + mThreadList.size());
 								break;
 							}
 						}
@@ -132,23 +170,52 @@ public class MyServer {
 						if (mMsgList.size() > 0) {
 							// 读取消息队列中的第一个消息
 							SocketMessage from = mMsgList.get(0);
-							System.out.println("当前设备数：>>>>>"+mThreadList.size());
+							String msg = from.msg;
+							System.out.println("当前设备数：>>>>>" + mThreadList.size());
+
 							for (SocketThread to : mThreadList) {
-								if (to.info.room != null && !to.info.imei.equals(from.info.imei) && to.info.room.equals(from.info.room)) {
-									System.out.println("收到消息：>>>>>" + to.info.imei + "from<<<<<" + from.info.imei);
-									BufferedWriter writer = to.writer;
-									JSONObject json = new JSONObject();
-									json.put("title", Properties.REQUEST);
-									json.put("msg", "call me");
-									json.put("from", from.info.imei);
-									json.put("phone", from.info.phone);
-									// writer写进json中的字符串数据，末尾记得加换行符："\n"，否则在客户机端无法识别
-									// 因为BufferedReader.readLine()方法是根据换行符来读取一行的
-									String str = json.toString();
-									writer.write(str + "\n");
-									// 调用flush()方法，刷新流缓冲，把消息推送到手机端
-									writer.flush();
-									System.out.println("推送消息成功：" + from.msg + ">> to " + to.info.imei);
+								if (msg.equals(Properties.CREATE_ROOM)) {
+									if (to.info.imei.equals(from.info.imei)) {
+										BufferedWriter writer = to.writer;
+										JSONObject json = new JSONObject();
+										json.put("title", Properties.CREATE_ROOM);
+										json.put("msg", "room key is _" + from.info.room);
+										writer.write(json.toString() + "\n");
+										writer.flush();
+										System.out.println("推送消息成功：" + from.msg + ">> to " + to.info.imei);
+										break;
+									}
+								} else if (msg.equals(Properties.JOIN_ROOM)) {
+									if (to.info.imei.equals(from.info.imei)) {
+										BufferedWriter writer = to.writer;
+										JSONObject json = new JSONObject();
+										json.put("title", Properties.JOIN_ROOM);
+										if (from.info.room != null) {
+											json.put("msg", "success_" + from.info.room);
+										} else {
+											json.put("msg", "fail!");
+										}
+										writer.write(json.toString() + "\n");
+										writer.flush();
+										System.out.println("推送消息成功：" + from.msg + ">> to " + to.info.imei);
+										break;
+									}
+								} else {
+									if (to.info.room != null && !to.info.imei.equals(from.info.imei) && to.info.room.equals(from.info.room)) {
+										System.out.println("收到消息：>>>>>" + to.info.imei + "from<<<<<" + from.info.imei);
+										BufferedWriter writer = to.writer;
+										JSONObject json = new JSONObject();
+										json.put("title", Properties.REQUEST);
+										json.put("msg", "call me");
+										json.put("from", from.info.imei);
+										json.put("phone", from.info.phone);
+										// writer写进json中的字符串数据，末尾记得加换行符："\n"，否则在客户机端无法识别
+										// 因为BufferedReader.readLine()方法是根据换行符来读取一行的
+										writer.write(json.toString() + "\n");
+										// 调用flush()方法，刷新流缓冲，把消息推送到手机端
+										writer.flush();
+										System.out.println("推送消息成功：" + from.msg + ">> to " + to.info.imei);
+									}
 								}
 							}
 							// 每推送一条消息之后，就要在消息队列中移除该消息
@@ -218,7 +285,9 @@ public class MyServer {
 
 			String title = json.getString("title");
 
-			System.out.println("请求ID>>>>>>>>" + title);
+			// 创建一个SocketMessage对象，用于接收json中的数据
+			SocketMessage msg = new SocketMessage();
+			msg.msg = title;
 
 			switch (title) {
 
@@ -234,27 +303,31 @@ public class MyServer {
 				break;
 
 			case Properties.CREATE_ROOM:
-				this.info.room = "A01";
+				this.info.room = rm.bookRoom(this.info.imei.substring(this.info.imei.length() - 4, this.info.imei.length()));
+				msg.info = this.info;
+				mMsgList.add(msg);
 				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
 
 			case Properties.JOIN_ROOM:
-				this.info.room = "A01";
+				if (rm.checkRoomKey(json.getString("room"))) {
+					this.info.room = json.getString("room");
+				}
+				msg.info = this.info;
+				mMsgList.add(msg);
 				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
 
 			case Properties.REQUEST:
-				// 创建一个SocketMessage对象，用于接收json中的数据
-				SocketMessage msg = new SocketMessage();
-				msg.msg = json.getString("msg");
-				msg.time = getTime(System.currentTimeMillis());
+
 				msg.info = this.info;
 				// 接收到一条消息后，将该消息添加到消息队列mMsgList
 				mMsgList.add(msg);
-				System.out.println("消息保存成功>>>>>>>");
+				System.out.println("请求保存成功>>>>>>>");
 				break;
 
 			case Properties.QUIT_ROOM:
+				rm.checkOut(this.info.room);
 				this.info.room = null;
 				System.out.println("room >>>>>>>>" + this.info.room);
 				break;
@@ -265,21 +338,10 @@ public class MyServer {
 
 		}
 
-		/**
-		 * 获取指定格式的时间字符串，通过毫秒转换日期
-		 * 
-		 * @param millTime
-		 */
-		private String getTime(long millTime) {
-			Date d = new Date(millTime);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			return sdf.format(d);
-		}
-		
-		public void destory(){
+		public void destory() {
 			isRunning = false;
 		}
-	
+
 	}
 
 }

@@ -19,13 +19,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.meizu.event.Room;
 import com.meizu.info.BrocastAction;
+import com.meizu.socket.client.R;
 
 public class MyRoomActivity extends Activity {
 
 	List<String> title;
 	ListView lv;
+	TextView key,count;
 	static Context mContext;
 	Notification notification;
 	NotificationManager manager;
@@ -39,10 +43,20 @@ public class MyRoomActivity extends Activity {
 		mContext = getApplicationContext();
 		manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
 
+		initTextView();
+		
 		initListView();
 		
 		createNotification();
 
+	}
+
+	private void initTextView() {
+		// TODO Auto-generated method stub
+		key = (TextView) findViewById(R.id.room_number);
+		count = (TextView) findViewById(R.id.devices_count);
+		
+		key.setText("当前房间号:" + Room.getRoom_key());
 	}
 
 	private void initListView() {
@@ -68,9 +82,17 @@ public class MyRoomActivity extends Activity {
 	}
 	
 	public void quit(View view){
+		
 		Intent quit = new Intent(BrocastAction.QUIT_ROOM);
 		sendBroadcast(quit);
+		
+		//设置本地房间号为空
+		Room.setRoom_key(null);
+		
+		//取消通知栏通知
 		manager.cancel(0);
+		
+		//返回上一Activity
 		onBackPressed();
 	}
 	

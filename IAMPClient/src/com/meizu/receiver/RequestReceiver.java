@@ -33,7 +33,7 @@ public class RequestReceiver extends BroadcastReceiver {
 			
 		}else if(BrocastAction.JOIN_ROOM.equals(action)){
 			
-			socket.joinRoom();
+			socket.joinRoom(intent.getStringExtra("room"));
 			
 		}else if(BrocastAction.QUIT_ROOM.equals(action)){
 			

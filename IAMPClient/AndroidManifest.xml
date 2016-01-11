@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.meizu.client"
+    package="com.meizu.socket.client"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -25,46 +26,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name="com.meizu.client.MyRoomActivity" >
+        <activity android:name="com.meizu.client.MyRoomActivity" >
         </activity>
-        
-        <service 
+
+        <service
             android:name="com.meizu.client.ConnectService"
-            android:exported="false">
-            <intent-filter android:priority="1000"></intent-filter>
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+            </intent-filter>
         </service>
-        
-        <receiver 
+
+        <receiver
             android:name="com.meizu.receiver.RequestReceiver"
-            android:exported="false">
-            
-            <intent-filter android:priority="1000">
-                
-                <action android:name="com.meizu.socket.init_socket"/>
-                <action android:name="com.meizu.socket.inform_state"/>
-                <action android:name="com.meizu.socket.create_room"/>
-                <action android:name="com.meizu.socket.join_room"/>
-                <action android:name="com.meizu.socket.quit_room"/>
-                <action android:name="com.meizu.socket.request.call"/>
-                <action android:name="com.meizu.socket.request.message"/>
-                
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.socket.init_socket" />
+                <action android:name="com.meizu.socket.inform_state" />
+                <action android:name="com.meizu.socket.create_room" />
+                <action android:name="com.meizu.socket.join_room" />
+                <action android:name="com.meizu.socket.quit_room" />
+                <action android:name="com.meizu.socket.request.call" />
+                <action android:name="com.meizu.socket.request.message" />
             </intent-filter>
-            
         </receiver>
-        
-        <receiver 
+        <receiver
             android:name="com.meizu.receiver.RespondReceiver"
-            android:exported="false">
-            
-             <intent-filter android:priority="1000">
-               <action android:name="com.meizu.socket.respond.call"/>
-                <action android:name="com.meizu.socket.respond.message"/>
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.socket.respond.create_room" />
+                <action android:name="com.meizu.socket.respond.join_room" />
+                <action android:name="com.meizu.socket.respond.call" />
+                <action android:name="com.meizu.socket.respond.message" />
             </intent-filter>
-            
         </receiver>
-        
     </application>
 
 </manifest>
