@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.meizu.client.SocketServer;
 import com.meizu.info.BrocastAction;
+import com.meizu.socket.SocketServer;
 
-public class RequestReceiver extends BroadcastReceiver {
+public class SocketRequestReceiver extends BroadcastReceiver {
 
 	static SocketServer socket;
 	
@@ -15,9 +15,9 @@ public class RequestReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		
-		socket = new SocketServer(context);
-
 		String action = intent.getAction();
+		
+		socket = new SocketServer(context);
 		
 		if(BrocastAction.INIT_SOCKET.equals(action)){
 			

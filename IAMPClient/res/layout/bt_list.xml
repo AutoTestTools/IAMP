@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.meizu.client.ClearEditText
+            android:id="@+id/devices_filter_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:background="@drawable/search_bar_edit_pressed"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:hint="@string/device_filter"
+            android:singleLine="true"
+            android:textSize="15.0dip" />
+
+        <ListView
+            android:id="@+id/bt_devices_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
+    
+    <ImageButton
+        android:id="@+id/imagebt"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/refresh" 
+        android:contentDescription="搜索蓝牙"/>
+
+</RelativeLayout>

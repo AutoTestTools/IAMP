@@ -1,15 +1,13 @@
 package com.meizu.client;
 
-import com.meizu.info.BrocastAction;
-
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+
+import com.meizu.event.Model;
+import com.meizu.info.BrocastAction;
+import com.meizu.info.Properties;
 
 public class ConnectService extends Service {
 
@@ -22,7 +20,10 @@ public class ConnectService extends Service {
 
 		mContext = getApplicationContext();
 		
-		initSocket();
+		if(Model.getCurModel().equals(Properties.WIFI_MODEL))
+			initSocket();
+		else if(Model.getCurModel().equals(Properties.BLUETOOTH_MODEL))
+			startBtServer();
 	}
 
 	@Override
@@ -49,6 +50,11 @@ public class ConnectService extends Service {
 	private void initSocket(){
 		Intent initSocket = new Intent(BrocastAction.INIT_SOCKET);
 		sendBroadcast(initSocket);
+	}
+	
+	private void startBtServer(){
+		Intent startBtServer = new Intent(BrocastAction.START_BT_SERVER);
+		sendBroadcast(startBtServer);
 	}
 	
 }

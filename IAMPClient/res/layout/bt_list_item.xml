@@ -2,21 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/wifi_model"
+    <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="model"
-        android:text="@string/wifi_model" />
+        android:textSize="16sp"
+        android:text="TextView" />
 
-    <Button
-        android:id="@+id/buletooth_model"
+    <TextView
+        android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="model"
-        android:text="@string/buletooth_model" />
+        android:textSize="12sp"
+        android:text="11:22:33:44" />
 
 </LinearLayout>

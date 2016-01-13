@@ -1,4 +1,4 @@
-package com.meizu.client;
+package com.meizu.socket;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -94,6 +94,8 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
+					
 					e.printStackTrace();
 				}
 				return null;
@@ -114,6 +116,7 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
 					e.printStackTrace();
 				}
 				return null;
@@ -134,6 +137,7 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
 					e.printStackTrace();
 				}
 				return null;
@@ -155,6 +159,7 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
 					e.printStackTrace();
 				}
 				return null;
@@ -175,6 +180,7 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
 					e.printStackTrace();
 				}
 				return null;
@@ -195,6 +201,7 @@ public class SocketServer {
 					mWriter.flush();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
+					initSocket();
 					e.printStackTrace();
 				}
 				return null;
@@ -211,6 +218,7 @@ public class SocketServer {
 			mWriter.flush();
 		} catch (IOException | JSONException e) {
 			// TODO Auto-generated catch block
+			initSocket();
 			e.printStackTrace();
 		}
 	}

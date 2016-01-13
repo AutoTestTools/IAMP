@@ -1,4 +1,4 @@
-package com.meizu.client;
+package com.meizu.socket;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +53,22 @@ public class SocketHandler extends Handler {
 			}
 			joinRes.putExtra("room", room);
 			mContext.sendBroadcast(joinRes);
+			break;
+		case Properties.REQUEST:
+			if(msg.contains("call")){
+				Intent call = new Intent(BrocastAction.RESPOND_CALL);
+				String phone = "";
+				try {
+					phone = json.getString("phone");
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				call.putExtra("phone", phone);
+				mContext.sendBroadcast(call);
+			}else if(msg.contains("message")){
+				
+			}
 			break;
 		default:
 			break;

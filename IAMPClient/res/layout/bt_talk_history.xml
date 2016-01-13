@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+     <com.meizu.client.ClearEditText 
+        android:id="@+id/history_filter_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:background="@drawable/search_bar_edit_pressed"
+        android:drawableLeft="@drawable/search_bar_icon_normal"
+        android:hint="@string/history_filter"
+        android:singleLine="true"
+        android:textSize="15.0dip"/>
+
+    <ListView
+        android:id="@+id/bt_history_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+    
+
+</LinearLayout>

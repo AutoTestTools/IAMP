@@ -101,7 +101,6 @@ public class MyServer {
 								}
 							}
 						}
-						System.out.println("当前房间总数：>>>>>" + rm.getAllRoom().size());
 					}
 					try {
 						Thread.sleep(200);
@@ -327,7 +326,6 @@ public class MyServer {
 				break;
 
 			case Properties.QUIT_ROOM:
-				rm.checkOut(this.info.room);
 				this.info.room = null;
 				System.out.println("room >>>>>>>>" + this.info.room);
 				break;

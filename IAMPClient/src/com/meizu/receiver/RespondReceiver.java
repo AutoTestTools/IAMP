@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.meizu.event.Room;
+import com.meizu.event.Telephony;
 import com.meizu.info.BrocastAction;
 
 public class RespondReceiver extends BroadcastReceiver {
@@ -21,8 +22,13 @@ public class RespondReceiver extends BroadcastReceiver {
 			
 			Room.setRoom_key(intent.getStringExtra("room"));
 			
-		} else {
+		} else if(action.equals(BrocastAction.RESPOND_CALL)){
+			
+			String phone = intent.getStringExtra("phone");
 
+			Telephony tp = new Telephony(context);
+			tp.makeCall(phone);
+			
 		}
 
 	}

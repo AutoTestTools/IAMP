@@ -1,4 +1,4 @@
-package com.meizu.client;
+package com.meizu.socket;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,8 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.meizu.event.Room;
+import com.meizu.iamp.client.R;
 import com.meizu.info.BrocastAction;
-import com.meizu.socket.client.R;
 
 public class MyRoomActivity extends Activity {
 
@@ -38,7 +38,7 @@ public class MyRoomActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.room);
+		setContentView(R.layout.request_room);
 		
 		mContext = getApplicationContext();
 		manager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);

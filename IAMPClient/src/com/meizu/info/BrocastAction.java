@@ -2,6 +2,10 @@ package com.meizu.info;
 
 public class BrocastAction {
 	
+	
+	public final static String START_BT_SERVER = "com.meizu.bt.start_server";
+	public final static String START_BT_CLIENT = "com.meizu.bt.start_client";
+	
 	public final static String INIT_SOCKET = "com.meizu.socket.init_socket";
 	public final static String INFORM_STATE = "com.meizu.socket.inform_state";
 	public final static String CREATE_ROOM ="com.meizu.socket.create_room";
