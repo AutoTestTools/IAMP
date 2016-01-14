@@ -3,6 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/talker_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="11:22:33:44"
+        android:textColor="@color/whilte"
+        android:textSize="28sp" />
+    
+     <ImageButton
+        android:id="@+id/back_to_history"
+        android:layout_width="35dip"
+        android:layout_height="35dip"
+        android:layout_alignLeft="@id/talker_ip"
+        android:src="@drawable/back"
+        android:contentDescription="返回对话历史列表" />
+
     <LinearLayout
         android:id="@+id/msg_layout"
         android:layout_width="match_parent"
@@ -34,10 +53,11 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/msg_content"
+        android:id="@+id/msg_content_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/msg_layout" >
+        android:layout_above="@id/msg_layout"
+        android:layout_below="@id/talker_ip" >
     </ListView>
 
 </RelativeLayout>

@@ -12,15 +12,15 @@ import com.meizu.info.Properties;
 import com.meizu.socket.NewRoomActivity;
 
 public class MainActivity extends Activity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 	}
-	
-	public void model(View view){
+
+	public void model(View view) {
 		Intent intent = new Intent();
 		switch (view.getId()) {
 		case R.id.wifi_model:

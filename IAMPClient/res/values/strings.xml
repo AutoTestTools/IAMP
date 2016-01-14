@@ -19,5 +19,8 @@
     <string name="device_filter">可通过蓝牙名称、地址关键字搜索</string>
     <string name="history_filter">可通过蓝牙名称、SN号关键字搜索</string>
     
+    <color name="black">#000000</color>
+    <color name="whilte">#ffffff</color>
+    <color name="gray">#cccccc</color>
     
 </resources>

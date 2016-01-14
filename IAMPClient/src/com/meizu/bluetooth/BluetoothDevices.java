@@ -1,5 +1,7 @@
 package com.meizu.bluetooth;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,8 +65,9 @@ public class BluetoothDevices extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		mContext = getActivity();
-		
+
 		BluetoothInfo.setOneAddress(mBtAdapter.getAddress());
+		BluetoothInfo.setOneName(mBtAdapter.getName());
 	}
 
 	@Override
@@ -97,7 +100,11 @@ public class BluetoothDevices extends Fragment {
 			mBtAdapter.cancelDiscovery();
 		}
 		// Unregister broadcast listeners
-		mContext.unregisterReceiver(mReceiver);
+		try {
+			mContext.unregisterReceiver(mReceiver);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -192,16 +199,40 @@ public class BluetoothDevices extends Fragment {
 				}
 			}
 		});
-		
+
 		mList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View convertView, int position, long arg3) {
 				// TODO Auto-generated method stub
-				BluetoothInfo.setTheOtherAddress(bList.get(position).address);
-				Toast.makeText(mContext, bList.get(position).address, Toast.LENGTH_SHORT).show();
-				Intent client = new Intent(BrocastAction.START_BT_CLIENT);
-				mContext.sendBroadcast(client);
+				BluetoothInfo.setTheOtherAddress((String) mData.get(position).get("address"));
+				BluetoothInfo.setTheOtherName((String) mData.get(position).get("name"));
+				if (!bList.get(position).isPaired) {
+					BluetoothDevice pair = mBtAdapter.getRemoteDevice(BluetoothInfo.getTheOtherAddress());
+					pairAnotherDevice(pair);
+					Toast.makeText(mContext, "需要对方确认配对", Toast.LENGTH_SHORT).show();
+					long curTime = System.currentTimeMillis();
+					while (System.currentTimeMillis() - curTime <= 60 * 1000) {
+						if(pair.getBondState() == BluetoothDevice.BOND_BONDED){
+							bList.set(position, new ScanBluetoothInfo(pair.getName(), pair.getAddress(), true));
+							myHandler.sendEmptyMessage(0);
+							break;
+						}else{
+							try {
+								Thread.sleep(200);
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
+					}
+				}
+				if(bList.get(position).isPaired){
+					Toast.makeText(mContext, (String) mData.get(position).get("address"), Toast.LENGTH_SHORT).show();
+					Intent client = new Intent(BrocastAction.START_BT_CLIENT);
+					mContext.sendBroadcast(client);
+				}else{
+					Toast.makeText(mContext, "配对不成功，请重新配对", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -226,6 +257,26 @@ public class BluetoothDevices extends Fragment {
 
 			}
 		});
+	}
+
+	public void pairAnotherDevice(BluetoothDevice btDev) {
+		Method createBondMethod;
+		try {
+			createBondMethod = BluetoothDevice.class.getMethod("createBond");
+			createBondMethod.invoke(btDev);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public final class ViewHolder {
@@ -276,7 +327,7 @@ public class BluetoothDevices extends Fragment {
 			String text = mClearEditText.getText().toString();
 			holder.name.setText((highlight((String) mData.get(position).get("name"), text)));
 			holder.address.setText((highlight((String) mData.get(position).get("address"), text)));
-			if((boolean) mData.get(position).get("isPaired")){
+			if ((boolean) mData.get(position).get("isPaired")) {
 				holder.name.setTextColor(Properties.PURPLE);
 				holder.address.setTextColor(Properties.PURPLE);
 			}
@@ -326,5 +377,4 @@ public class BluetoothDevices extends Fragment {
 		}
 
 	}
-
 }

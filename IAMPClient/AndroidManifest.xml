@@ -15,6 +15,7 @@
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
+        android:name = "org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -45,13 +46,17 @@
             <intent-filter android:priority="1000" >
             </intent-filter>
         </service>
-
+        
         <receiver
             android:name="com.meizu.receiver.BluetoothRequestReceiver"
             android:exported="false" >
             <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.bt.tab_change" />
                 <action android:name="com.meizu.bt.start_server" />
                 <action android:name="com.meizu.bt.start_client" />
+                <action android:name="com.meizu.bt.stop_server" />
+                <action android:name="com.meizu.bt.stop_client" />
+                <action android:name="com.meizu.bt.send_msg" />
             </intent-filter>
         </receiver>
         
@@ -77,9 +82,9 @@
                 <action android:name="com.meizu.socket.respond.join_room" />
                 <action android:name="com.meizu.socket.respond.call" />
                 <action android:name="com.meizu.socket.respond.message" />
+                <action android:name="com.meizu.socket.respond.nothing" />
             </intent-filter>
         </receiver>
-        
         
     </application>
 
