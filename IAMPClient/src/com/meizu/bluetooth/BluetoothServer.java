@@ -25,7 +25,7 @@ public class BluetoothServer {
 	private ReadThread rThread = null;;
 	private BluetoothHandler mHandler = null;
 	private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-	
+
 	static private BluetoothServerSocket mserverSocket = null;
 	static private BluetoothSocket socket = null;
 	static private ServerThread serverThread = null;
@@ -41,7 +41,7 @@ public class BluetoothServer {
 
 	public void startBtServer() {
 		if (serverThread == null) {
-			
+
 			serverThread = new ServerThread();
 			serverThread.start();
 		}
@@ -88,7 +88,17 @@ public class BluetoothServer {
 					rThread.interrupt();
 				rThread = new ReadThread();
 				rThread.start();
+
+				while (true) {// 掉线后重新开启服务
+					if (mserverSocket == null)
+						mserverSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(BluetoothInfo.getOneAddress(),
+								UUID.fromString(Properties.BLUETOOTH_UUID));
+					Thread.sleep(500);
+				}
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -126,28 +136,40 @@ public class BluetoothServer {
 					rThread.interrupt();
 				rThread = new ReadThread();
 				rThread.start();
+
+				while (true) { //断开连接，自动重连服务器
+					if (socket == null)
+						socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(Properties.BLUETOOTH_UUID));
+					Thread.sleep(500);
+				}
 			} catch (IOException e) {
 				Message msg = new Message();
 				msg.obj = "连接服务端异常！断开连接重新试一试。";
 				msg.what = Properties.BT_CONNECT_ERROR;
 				mHandler.sendMessage(msg);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	};
 
 	// 发送数据
-	public void sendMessageHandle(int what, String m) {
+	public boolean sendMessageHandle(int what, String m) {
 		if (socket == null) {
-			Toast.makeText(mContext, "没有连接", Toast.LENGTH_SHORT).show();
-			return;
+			Toast.makeText(mContext, "您已掉线", Toast.LENGTH_SHORT).show();
+			return false;
 		}
 		try {
 			OutputStream os = socket.getOutputStream();
-			String msg = what + Properties.WHAT_MARK + m;
+			String msg = what + Properties.WHAT_MARK + m ;
 			os.write(msg.getBytes());
+			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Toast.makeText(mContext, "对方已掉线", Toast.LENGTH_SHORT).show();
+			return false;
 		}
 	}
 

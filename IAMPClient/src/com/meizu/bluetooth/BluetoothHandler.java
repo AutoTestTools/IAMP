@@ -32,34 +32,46 @@ public class BluetoothHandler extends Handler {
 		case Properties.BT_OPEN_TALKING_TAB:// 客户端自启对话模式
 			setCurTalking(BluetoothInfo.getTheOtherAddress());
 			break;
-			
-		case Properties.BT_INFORM_MAC_AND_NAME://服务端收到对方mac和name时，启动对话模式
-			String m[] = str.split("_");
+
+		case Properties.BT_INFORM_MAC_AND_NAME:// 服务端收到对方mac和name时，启动对话模式
+			String m[] = str.split(Properties.PHONE_MARK)[0].split("_");
 			BluetoothInfo.setTheOtherAddress(m[0]);
 			BluetoothInfo.setTheOtherName(m[1]);
 			setCurTalking(m[0]);
 			Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
 			break;
-			
-		case Properties.BT_REQUEST://收到请求
+
+		case Properties.BT_REQUEST:// 收到请求
 			String action = null;
-			if(str.equals(Properties.CALL_ME)){
+			String[] message = str.split(Properties.PHONE_MARK);
+			if (message[0].equals(Properties.CALL_ME)) {
 				action = BrocastAction.RESPOND_CALL;
-			}else if(str.equals(Properties.MESSAGE_ME)){
-				action = BrocastAction.RESPOND_CALL;
-			}else{
+			} else if (message[0].equals(Properties.MESSAGE_ME)) {
+				action = BrocastAction.RESPOND_MESSAGE;
+			} else if (message[0].equals(Properties.TALK_ME_WHEN_RECEIVER_SMS)) {
+				action = BrocastAction.RESPOND_RECEIVE_SMS;
+			} else if (message[0].equals(Properties.TALK_ME_WHEN_RECEIVER_MMS)) {
+				action = BrocastAction.RESPOND_RECEIVE_MMS;
+			} else {
 				action = BrocastAction.RESPOND_NOTHING;
 			}
 			Intent request = new Intent(action);
-			request.putExtra("phone", "123456");
-			request.putExtra("msg", str);
+			if(message.length >1)
+				request.putExtra("phone", message[1]);
+			request.putExtra("msg", message[0]);
 			mContext.sendBroadcast(request);
 			break;
-			
-		case Properties.BT_RESPOND:
-			
+
+		case Properties.BT_REPLY:// 收到回复
+			Intent nothing = new Intent(BrocastAction.RESPOND_NOTHING);
+			nothing.putExtra("msg", str);
+			mContext.sendBroadcast(nothing);
 			break;
-			
+
+		case Properties.BT_RESPOND:
+
+			break;
+
 		default:
 			Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
 			break;

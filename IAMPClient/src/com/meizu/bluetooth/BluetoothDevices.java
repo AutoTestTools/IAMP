@@ -35,6 +35,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +51,15 @@ public class BluetoothDevices extends Fragment {
 	private ListView mList;
 	private ClearEditText mClearEditText;
 	private ImageButton bt;
+	private ProgressBar bar;
 
 	private List<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
 	private List<ScanBluetoothInfo> bList = new ArrayList<ScanBluetoothInfo>();
 
 	private MyAdapter adapter;
+
+	private BluetoothDevice pair;
+	private int pairIndex;
 
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -158,6 +163,7 @@ public class BluetoothDevices extends Fragment {
 		mList = (ListView) view.findViewById(R.id.bt_devices_list);
 		mClearEditText = (ClearEditText) view.findViewById(R.id.devices_filter_edit);
 		bt = (ImageButton) view.findViewById(R.id.imagebt);
+		bar = (ProgressBar) view.findViewById(R.id.scaning);
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(BluetoothDevice.ACTION_FOUND);
@@ -208,30 +214,13 @@ public class BluetoothDevices extends Fragment {
 				BluetoothInfo.setTheOtherAddress((String) mData.get(position).get("address"));
 				BluetoothInfo.setTheOtherName((String) mData.get(position).get("name"));
 				if (!bList.get(position).isPaired) {
-					BluetoothDevice pair = mBtAdapter.getRemoteDevice(BluetoothInfo.getTheOtherAddress());
-					pairAnotherDevice(pair);
-					Toast.makeText(mContext, "需要对方确认配对", Toast.LENGTH_SHORT).show();
-					long curTime = System.currentTimeMillis();
-					while (System.currentTimeMillis() - curTime <= 60 * 1000) {
-						if(pair.getBondState() == BluetoothDevice.BOND_BONDED){
-							bList.set(position, new ScanBluetoothInfo(pair.getName(), pair.getAddress(), true));
-							myHandler.sendEmptyMessage(0);
-							break;
-						}else{
-							try {
-								Thread.sleep(200);
-							} catch (Exception e) {
-								// TODO: handle exception
-							}
-						}
-					}
-				}
-				if(bList.get(position).isPaired){
-					Toast.makeText(mContext, (String) mData.get(position).get("address"), Toast.LENGTH_SHORT).show();
-					Intent client = new Intent(BrocastAction.START_BT_CLIENT);
-					mContext.sendBroadcast(client);
+					pair = mBtAdapter.getRemoteDevice(BluetoothInfo.getTheOtherAddress());
+					pairIndex = position;
+					pairAnotherDevice(pair);// 请求配对设备
+					myHandler.sendEmptyMessage(1);// 显示progressBar
+					pairThread.start();// 检测配对结果
 				}else{
-					Toast.makeText(mContext, "配对不成功，请重新配对", Toast.LENGTH_SHORT).show();
+					myHandler.sendEmptyMessage(2);
 				}
 			}
 		});
@@ -340,13 +329,64 @@ public class BluetoothDevices extends Fragment {
 		@Override
 		public void handleMessage(Message msg) {
 
-			mData = getData(mClearEditText.getText().toString());
+			switch (msg.what) {
+			case 0:
+				mData = getData(mClearEditText.getText().toString());
+				mList.setAdapter(adapter);
+				mList.setClickable(true);
+				break;
 
-			mList.setAdapter(adapter);
+			case 1:
+				bar.setVisibility(View.VISIBLE);
+				Toast.makeText(mContext, "需要对方确认配对", Toast.LENGTH_SHORT).show();
+				mList.setClickable(false);
+				break;
+			case 2:// 配对成功
+				bar.setVisibility(View.GONE);
+				Intent client = new Intent(BrocastAction.START_BT_CLIENT);
+				mContext.sendBroadcast(client);
+				break;
+			case 3:// 超时，配对不成功
+				mList.setClickable(true);
+				bar.setVisibility(View.GONE);
+				Toast.makeText(mContext, "配对不成功，请重新配对", Toast.LENGTH_SHORT).show();
+				mData = getData(mClearEditText.getText().toString());
+				mList.setAdapter(adapter);
+				break;
+
+			default:
+				break;
+			}
 
 			super.handleMessage(msg);
 		};
 	};
+
+	Thread pairThread = new Thread(new Runnable() {// 等待配对
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					boolean flag = false;
+					long curTime = System.currentTimeMillis();
+					while (System.currentTimeMillis() - curTime <= 60 * 1000) {
+						if (pair.getBondState() == BluetoothDevice.BOND_BONDED) {
+							bList.set(pairIndex, new ScanBluetoothInfo(pair.getName(), pair.getAddress(), true));
+							myHandler.sendEmptyMessage(2);// 配对成功
+							flag = true;
+							break;
+						} else {
+							try {
+								Thread.sleep(200);
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
+					}
+					if (!flag)
+						myHandler.sendEmptyMessage(3);// 超时，配对不成功
+				}
+			});
 
 	/** 高亮关键字 */
 	public SpannableStringBuilder highlight(String text, String target) {

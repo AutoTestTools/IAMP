@@ -112,7 +112,7 @@ public class Data extends DataSupport {
 	}
 
 	public void setTime(Date date) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 		this.time = formatter.format(date);
 	}
 

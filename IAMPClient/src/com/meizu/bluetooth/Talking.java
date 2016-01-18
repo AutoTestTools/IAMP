@@ -51,7 +51,8 @@ public class Talking extends Fragment implements OnClickListener {
 
 	private MyAdapter adapter;
 
-	final String[] reqType = new String[] { Properties.CALL_ME, Properties.MESSAGE_ME };
+	final String[] reqType = new String[] { Properties.CALL_ME, Properties.MESSAGE_ME, Properties.TALK_ME_WHEN_RECEIVER_SMS,
+			Properties.TALK_ME_WHEN_RECEIVER_MMS };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class Talking extends Fragment implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		mContext = getActivity();
-		
+
 		registerReceiver();
 	}
 
@@ -75,10 +76,19 @@ public class Talking extends Fragment implements OnClickListener {
 		send = (Button) view.findViewById(R.id.send);// 发送
 		choose = (Button) view.findViewById(R.id.choose);
 
+		mList.setDividerHeight(0);// 设为无分割线模式
 		ip.setText(CurReqPage.getTalker_mac());
 		img.setOnClickListener(this);
 		send.setOnClickListener(this);
 		choose.setOnClickListener(this);
+
+		if (CurReqPage.getTalker_mac().equals(BluetoothInfo.getTheOtherAddress())) {// 如果当前聊天界面是当前的对话界面，则添加按钮及发送按钮可以点击
+			send.setEnabled(true);
+			choose.setEnabled(true);
+		} else {// 否则不可点击
+			send.setEnabled(false);
+			choose.setEnabled(false);
+		}
 
 		adapter = new MyAdapter(mContext);
 
@@ -98,9 +108,9 @@ public class Talking extends Fragment implements OnClickListener {
 			boolean byMe = dataList.get(i).getFrom_mac().equals(BluetoothInfo.getOneAddress());
 
 			map = new HashMap<String, Object>();
-			map.put("name", name != null? name :"");
-			map.put("msg", msg!= null? msg :"");
-			map.put("time", time!= null? time :"");
+			map.put("name", name != null ? name : "");
+			map.put("msg", msg != null ? msg : "");
+			map.put("time", time != null ? time : "");
 			map.put("byMe", byMe);
 			list.add(map);
 		}
@@ -194,6 +204,8 @@ public class Talking extends Fragment implements OnClickListener {
 
 			mList.setAdapter(adapter);
 
+			mList.setSelection(adapter.getCount() - 1);// 设置更新数据后，滚动到最后一行
+
 			super.handleMessage(msg);
 		};
 	};
@@ -220,6 +232,7 @@ public class Talking extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.choose:
+
 			AlertDialog dialog = new AlertDialog.Builder(mContext).setTitle("请选择请求")
 
 			.setSingleChoiceItems(reqType, -1, new DialogInterface.OnClickListener() {
@@ -243,7 +256,10 @@ public class Talking extends Fragment implements OnClickListener {
 				@Override
 				public void onClick(DialogInterface arg0, int arg1) {
 					// TODO Auto-generated method stub
-
+					Intent send = new Intent(BrocastAction.BT_SEND_MSG);
+					send.putExtra("msg", et.getText().toString());
+					mContext.sendBroadcast(send);
+					et.setText("");
 				}
 
 			}).create();
@@ -278,7 +294,7 @@ public class Talking extends Fragment implements OnClickListener {
 	private void unregisterReceiver() {
 		mContext.unregisterReceiver(dReceiver);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub

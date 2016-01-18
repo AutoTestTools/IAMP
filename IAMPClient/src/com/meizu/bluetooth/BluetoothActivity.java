@@ -1,7 +1,5 @@
 package com.meizu.bluetooth;
 
-import org.litepal.crud.DataSupport;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -19,11 +18,14 @@ import android.widget.TextView;
 import com.meizu.client.ConnectService;
 import com.meizu.iamp.client.R;
 import com.meizu.info.BrocastAction;
+import com.meizu.info.PhoneNumber;
 import com.meizu.info.Properties;
 
 public class BluetoothActivity extends Activity implements OnClickListener {
 
 	private FragmentManager manager;
+	private Fragment currentFrag;
+	private FragmentTransaction transaction;
 	private TextView[] titles = new TextView[3];
 
 	@Override
@@ -31,7 +33,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onCreate(bundle);
 		setContentView(R.layout.bt_main);
-		
+
 		manager = getFragmentManager();
 
 		titles[0] = (TextView) findViewById(R.id.bt_devices);
@@ -41,13 +43,15 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		titles[0].setOnClickListener(this);
 		titles[1].setOnClickListener(this);
 		titles[2].setOnClickListener(this);
-		
+
 		setCurrentFragment(R.id.bt_devices);
-		
+
 		registerReceiver();
-		
+
 		startConnectService();
 		
+		new PhoneNumber(getApplicationContext());//设置本机号码
+
 	}
 
 	@Override
@@ -57,11 +61,11 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		tabIntent.putExtra("tab", view.getId());
 		sendBroadcast(tabIntent);
 	}
-	
-	private void setCurrentFragment(int index){
+
+	private void setCurrentFragment(int index) {
 		Fragment newFragment = null;
 		switch (index) {
-		
+
 		case R.id.bt_devices:
 			titles[0].setTextColor(Properties.GREEN);
 			titles[1].setTextColor(Color.BLACK);
@@ -86,25 +90,41 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
-		FragmentTransaction transaction = manager.beginTransaction();
-		transaction.replace(R.id.frame, newFragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		display(newFragment);
 	}
-	
+
+	/**在同一layout中切换Fragment(不重新加载fragment)*/
+	private void display(Fragment displayFrag) {
+		if (currentFrag != displayFrag) {
+			transaction = manager.beginTransaction();
+			if (displayFrag == null)
+				return;
+			if (displayFrag.isAdded()) {
+				transaction.show(displayFrag);
+			} else {
+				transaction.add(R.id.frame, displayFrag);
+			}
+			if (currentFrag != null) {
+				transaction.hide(currentFrag);
+			}
+			currentFrag = displayFrag;
+			transaction.commit();
+		}
+	}
+
 	private void startConnectService() {
 		// TODO Auto-generated method stub
-		Intent service = new Intent(BluetoothActivity.this,ConnectService.class);
+		Intent service = new Intent(BluetoothActivity.this, ConnectService.class);
 		startService(service);
 	}
-	
-	private Fragment getTalkPage(){
-		if(CurReqPage.isTalking())
+
+	private Fragment getTalkPage() {
+		if (CurReqPage.isTalking())
 			return new Talking();
 		else
 			return new TalkHistory();
 	}
-	
+
 	private void registerReceiver() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(BrocastAction.BT_TAB_CHANGE);
@@ -115,14 +135,23 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(BrocastAction.BT_TAB_CHANGE)){
+			if (intent.getAction().equals(BrocastAction.BT_TAB_CHANGE)) {
 				setCurrentFragment(intent.getIntExtra("tab", R.id.bt_devices));
 			}
-				
+
 		}
 	};
 
-	
+	@Override
+	public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);// 不重新加载界面
+		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			// land
+		} else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			// port
+		}
+	};
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

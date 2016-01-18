@@ -12,12 +12,28 @@ public class Properties {
 	
 	public static String WIFI_MODEL = "WIFI_MODEL";
 	public static String BLUETOOTH_MODEL = "BLUETOOTH_MODEL";
-	public static String WHAT_MARK = "#WHAT_MARK#";
 	
+	public static String WHAT_MARK = "#WHAT_MARK#";
+	public static String PHONE_MARK = "#PHONENUMBER_MARK#";
+	
+	/**请求文本*/
 	public static String CALL_ME = "给我打电话";
 	public static String MESSAGE_ME = "给我发短信";
+	public static String END_CALL_PLEASE = "你可以挂电话了";
+	public static String TALK_ME_WHEN_RECEIVER_CALL = "收到电话告诉我";
+	public static String END_THEN_TALK_WHEN_RECEIVER_CALL = "收到电话挂断后告诉我";
+	public static String ANSEWER_THEN_TALK_WHEN_RECEIVER_CALL = "收到电话接听后告诉我";
+	public static String TALK_ME_WHEN_RECEIVER_SMS = "收到短信告诉我";
+	public static String TALK_ME_WHEN_RECEIVER_MMS = "收到彩信告诉我";
+	
+	/**自动回复文本*/
 	public static String CALL_ALREADY = "好的，我已拨打";
 	public static String MESSAGE_ALREADY = "好的，我已发送";
+	public static String ALREADY_RECEIVER_CALL = "我收到来电了";
+	public static String ALREADY_END_CALL = "我接听了电话";
+	public static String ALREADY_ANSWER_CALL = "我挂断了电话";
+	public static String ALREADY_RECEIVER_SMS = "我收到短信了,号码:";
+	public static String ALREADY_RECEIVER_MMS = "我收到彩信了,号码:";
 	
 	public final static String INFORM_NUM = "INFORM_NUM";
 	public final static String INFORM_STATE = "INFORM_STATE";
@@ -32,8 +48,9 @@ public class Properties {
 	public final static int BT_INFORM_MAC_AND_NAME = 2;
 	public final static int BT_REQUEST = 3;
 	public final static int BT_RESPOND = 4;
-	public final static int BT_OPEN_TALKING_TAB = 5;
-	public final static int BT_CONNECT_ERROR = 5;
+	public final static int BT_REPLY = 5;
+	public final static int BT_OPEN_TALKING_TAB = 6;
+	public final static int BT_CONNECT_ERROR = 7;
 	
 	public final static int GREEN = Color.rgb(60, 179, 113);
 	public final static int PURPLE = Color.rgb(171, 130, 255);

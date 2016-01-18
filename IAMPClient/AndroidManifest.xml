@@ -11,16 +11,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
 
     <application
-        android:name = "org.litepal.LitePalApplication"
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-       
         <activity
             android:name="com.meizu.client.MainActivity"
             android:label="@string/app_name" >
@@ -30,14 +33,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name="com.meizu.socket.NewRoomActivity" >
         </activity>
-        
         <activity android:name="com.meizu.socket.MyRoomActivity" >
         </activity>
-        
-        <activity android:name="com.meizu.bluetooth.BluetoothActivity" >
+        <activity
+            android:name="com.meizu.bluetooth.BluetoothActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden" >
         </activity>
 
         <service
@@ -46,7 +49,7 @@
             <intent-filter android:priority="1000" >
             </intent-filter>
         </service>
-        
+
         <receiver
             android:name="com.meizu.receiver.BluetoothRequestReceiver"
             android:exported="false" >
@@ -57,9 +60,9 @@
                 <action android:name="com.meizu.bt.stop_server" />
                 <action android:name="com.meizu.bt.stop_client" />
                 <action android:name="com.meizu.bt.send_msg" />
+                <action android:name="com.meizu.bt.reply_msg" />
             </intent-filter>
         </receiver>
-        
         <receiver
             android:name="com.meizu.receiver.SocketRequestReceiver"
             android:exported="false" >
@@ -73,7 +76,6 @@
                 <action android:name="com.meizu.socket.request.message" />
             </intent-filter>
         </receiver>
-        
         <receiver
             android:name="com.meizu.receiver.RespondReceiver"
             android:exported="false" >
@@ -82,10 +84,11 @@
                 <action android:name="com.meizu.socket.respond.join_room" />
                 <action android:name="com.meizu.socket.respond.call" />
                 <action android:name="com.meizu.socket.respond.message" />
-                <action android:name="com.meizu.socket.respond.nothing" />
+                <action android:name="com.meizu.socket.respond.nothing" /> 
+                <action android:name="com.meizu.socket.respond.receive.sms" /> 
+                <action android:name="com.meizu.socket.respond.receive.mms" /> 
             </intent-filter>
         </receiver>
-        
     </application>
 
 </manifest>

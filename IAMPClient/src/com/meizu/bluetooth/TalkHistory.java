@@ -76,7 +76,8 @@ public class TalkHistory extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				// TODO Auto-generated method stub
-				CurReqPage.setTalker_mac((String) mData.get(position).get("address"));
+				CurReqPage.setTalker_mac((String) mData.get(position).get("mac"));
+				CurReqPage.setTalker_name((String) mData.get(position).get("name"));
 				setCurTalking();
 			}
 		});
@@ -112,12 +113,20 @@ public class TalkHistory extends Fragment {
 
 		setDataList();
 		for (int i = 0; i < dataList.size(); i++) {
-			String name = dataList.get(i).getFrom_mac();
+			String mac = dataList.get(i).getFrom_mac();
+			String name = "";
+			if(mac.equals(BluetoothInfo.getOneAddress())){
+				mac = dataList.get(i).getTo_mac();
+				name = dataList.get(i).getTo_name();
+			}else{
+				name = dataList.get(i).getFrom_name();
+			}
 			String msg = dataList.get(i).getMsg();
 			String time = dataList.get(i).getTime();
 			if (!filter.equals("") && !name.contains(filter) && !msg.contains(filter))
 				continue;
 			map = new HashMap<String, Object>();
+			map.put("mac", mac);
 			map.put("name", name);
 			map.put("msg", msg);
 			map.put("time", time);
@@ -214,7 +223,7 @@ public class TalkHistory extends Fragment {
 	}
 
 	public void setDataList() {
-		List<Data> datas = DataSupport.order("time asc").find(Data.class);
+		List<Data> datas = DataSupport.order("time desc").find(Data.class);
 		dataList.clear();
 		Set<String> macs = new HashSet<String>();
 		int nums = 0;
