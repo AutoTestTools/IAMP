@@ -108,8 +108,8 @@ public class Message {
 	}
 
 	private String isNew(String url) {
-		Uri uriMMS = Uri.parse(url);
-		Cursor c = mContext.getContentResolver().query(uriMMS, null, "read = 0", null, null);
+		Uri uri = Uri.parse(url);
+		Cursor c = mContext.getContentResolver().query(uri, null, "read = 0", null, null);
 		String phone = null;
 		if (c.moveToFirst()) {
 			phone = c.getString(c.getColumnIndex("address"));

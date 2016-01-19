@@ -51,8 +51,8 @@ public class Talking extends Fragment implements OnClickListener {
 
 	private MyAdapter adapter;
 
-	final String[] reqType = new String[] { Properties.CALL_ME, Properties.MESSAGE_ME, Properties.TALK_ME_WHEN_RECEIVER_SMS,
-			Properties.TALK_ME_WHEN_RECEIVER_MMS };
+	final String[] reqType = new String[] { Properties.CALL_ME, Properties.TALK_ME_WHEN_RECEIVER_CALL, Properties.ANSEWER_THEN_TALK_WHEN_RECEIVER_CALL,
+			Properties.END_THEN_TALK_WHEN_RECEIVER_CALL, Properties.MESSAGE_ME, Properties.TALK_ME_WHEN_RECEIVER_SMS, Properties.TALK_ME_WHEN_RECEIVER_MMS };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

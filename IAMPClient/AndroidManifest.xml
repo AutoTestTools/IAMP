@@ -83,6 +83,9 @@
                 <action android:name="com.meizu.socket.respond.create_room" />
                 <action android:name="com.meizu.socket.respond.join_room" />
                 <action android:name="com.meizu.socket.respond.call" />
+                <action android:name="com.meizu.socket.respond.receiver.call" />
+                <action android:name="com.meizu.socket.respond.answer.call" />
+                <action android:name="com.meizu.socket.respond.end.call" />
                 <action android:name="com.meizu.socket.respond.message" />
                 <action android:name="com.meizu.socket.respond.nothing" /> 
                 <action android:name="com.meizu.socket.respond.receive.sms" /> 

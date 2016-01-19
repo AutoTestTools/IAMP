@@ -37,9 +37,47 @@ public class RespondReceiver extends BroadcastReceiver {
 			Telephony tp = new Telephony(context);
 			tp.makeCall(phone);
 
-			Intent send = new Intent(BrocastAction.BT_SEND_MSG);
+			Intent send = new Intent(BrocastAction.BT_REPLY_MSG);
 			send.putExtra("msg", Properties.CALL_ALREADY);
 			context.sendBroadcast(send);
+
+		}  else if (action.equals(BrocastAction.RESPOND_ANSWER_CALL)) {
+
+			String msg = intent.getStringExtra("msg");
+
+			addReceiveData(context, msg);
+
+			//接听电话操作
+			Telephony tp = new Telephony(context);
+			tp.answerCall();
+
+			Intent send = new Intent(BrocastAction.BT_REPLY_MSG);
+			send.putExtra("msg", Properties.ALREADY_ANSWER_CALL);
+			context.sendBroadcast(send);
+
+		}  else if (action.equals(BrocastAction.RESPOND_END_CALL)) {
+
+			String msg = intent.getStringExtra("msg");
+
+			addReceiveData(context, msg);
+
+			//挂断电话操作
+			Telephony tp = new Telephony(context);
+			tp.endCall();
+
+			Intent send = new Intent(BrocastAction.BT_REPLY_MSG);
+			send.putExtra("msg", Properties.ALREADY_END_CALL);
+			context.sendBroadcast(send);
+
+		}  else if (action.equals(BrocastAction.RESPOND_REVEIVER_CALL)) {
+
+			String msg = intent.getStringExtra("msg");
+
+			addReceiveData(context, msg);
+
+			//监听来电操作
+			Telephony tp = new Telephony(context);
+			tp.registerCallReceiver();
 
 		} else if (action.equals(BrocastAction.RESPOND_MESSAGE)) {
 			
@@ -52,7 +90,7 @@ public class RespondReceiver extends BroadcastReceiver {
 			Message m = new Message(context);
 			m.sendMessage(phone);
 
-			Intent send = new Intent(BrocastAction.BT_SEND_MSG);
+			Intent send = new Intent(BrocastAction.BT_REPLY_MSG);
 			send.putExtra("msg", Properties.MESSAGE_ALREADY);
 			context.sendBroadcast(send);
 			

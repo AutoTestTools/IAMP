@@ -18,20 +18,19 @@ public class Properties {
 	
 	/**请求文本*/
 	public static String CALL_ME = "给我打电话";
-	public static String MESSAGE_ME = "给我发短信";
-	public static String END_CALL_PLEASE = "你可以挂电话了";
 	public static String TALK_ME_WHEN_RECEIVER_CALL = "收到电话告诉我";
-	public static String END_THEN_TALK_WHEN_RECEIVER_CALL = "收到电话挂断后告诉我";
-	public static String ANSEWER_THEN_TALK_WHEN_RECEIVER_CALL = "收到电话接听后告诉我";
+	public static String END_THEN_TALK_WHEN_RECEIVER_CALL = "挂断电话后告诉我";
+	public static String ANSEWER_THEN_TALK_WHEN_RECEIVER_CALL = "接听电话后告诉我";
+	public static String MESSAGE_ME = "给我发短信";
 	public static String TALK_ME_WHEN_RECEIVER_SMS = "收到短信告诉我";
 	public static String TALK_ME_WHEN_RECEIVER_MMS = "收到彩信告诉我";
 	
 	/**自动回复文本*/
 	public static String CALL_ALREADY = "好的，我已拨打";
 	public static String MESSAGE_ALREADY = "好的，我已发送";
-	public static String ALREADY_RECEIVER_CALL = "我收到来电了";
-	public static String ALREADY_END_CALL = "我接听了电话";
-	public static String ALREADY_ANSWER_CALL = "我挂断了电话";
+	public static String ALREADY_RECEIVER_CALL = "我收到来电了,号码:";
+	public static String ALREADY_ANSWER_CALL = "我接听了电话";
+	public static String ALREADY_END_CALL = "我挂断了电话";
 	public static String ALREADY_RECEIVER_SMS = "我收到短信了,号码:";
 	public static String ALREADY_RECEIVER_MMS = "我收到彩信了,号码:";
 	

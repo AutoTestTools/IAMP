@@ -46,6 +46,12 @@ public class BluetoothHandler extends Handler {
 			String[] message = str.split(Properties.PHONE_MARK);
 			if (message[0].equals(Properties.CALL_ME)) {
 				action = BrocastAction.RESPOND_CALL;
+			} else if (message[0].equals(Properties.TALK_ME_WHEN_RECEIVER_CALL)) {
+				action = BrocastAction.RESPOND_REVEIVER_CALL;
+			} else if (message[0].equals(Properties.END_THEN_TALK_WHEN_RECEIVER_CALL)) {
+				action = BrocastAction.RESPOND_END_CALL;
+			} else if (message[0].equals(Properties.ANSEWER_THEN_TALK_WHEN_RECEIVER_CALL)) {
+				action = BrocastAction.RESPOND_ANSWER_CALL;
 			} else if (message[0].equals(Properties.MESSAGE_ME)) {
 				action = BrocastAction.RESPOND_MESSAGE;
 			} else if (message[0].equals(Properties.TALK_ME_WHEN_RECEIVER_SMS)) {

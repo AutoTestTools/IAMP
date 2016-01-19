@@ -23,6 +23,9 @@ public class BrocastAction {
 	public final static String RESPOND_CREATE_ROOM = "com.meizu.socket.respond.create_room";
 	public final static String RESPOND_JOIN_ROOM = "com.meizu.socket.respond.join_room";
 	public final static String RESPOND_CALL = "com.meizu.socket.respond.call";
+	public final static String RESPOND_REVEIVER_CALL = "com.meizu.socket.respond.receiver.call";
+	public final static String RESPOND_ANSWER_CALL = "com.meizu.socket.respond.answer.call";
+	public final static String RESPOND_END_CALL = "com.meizu.socket.respond.end.call";
 	public final static String RESPOND_MESSAGE = "com.meizu.socket.respond.message";
 	public final static String RESPOND_RECEIVE_SMS = "com.meizu.socket.respond.receive.sms";
 	public final static String RESPOND_RECEIVE_MMS = "com.meizu.socket.respond.receive.mms";
