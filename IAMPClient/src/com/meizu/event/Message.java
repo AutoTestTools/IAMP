@@ -68,6 +68,7 @@ public class Message {
 		iSMms = true;
 		mmsContent = new SmsContent(new Handler());// 这里把两个监听给同一个对象smsContent等于是只要有来信，就会调用smsContent的onchange方法
 		mContext.getContentResolver().registerContentObserver(Uri.parse("content://mms"), true, mmsContent);
+		mContext.getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, mmsContent);
 	}
 	
 	public void unregisterMMSContentObserver(){
@@ -99,16 +100,18 @@ public class Message {
 
 	// 获取是否为指定号码发来短信：
 	private String isNewSMS() {
-		return isNew("content://sms");
+		return isNew(false);
 	}
 
 	// 获取是否为指定号码发来彩信：
 	private String isNewMMS() {
-		return isNew("content://mms");
+		return isNew(true);
 	}
 
-	private String isNew(String url) {
-		Uri uri = Uri.parse(url);
+	private String isNew(boolean isMms) {
+//		String mms = "content://mms";
+		String sms = "content://sms";
+		Uri uri = Uri.parse(sms);
 		Cursor c = mContext.getContentResolver().query(uri, null, "read = 0", null, null);
 		String phone = null;
 		if (c.moveToFirst()) {

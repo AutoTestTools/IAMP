@@ -102,7 +102,7 @@ public class Telephony {
 					String incoming_number = intent.getStringExtra("incoming_number");
 
 					Intent incoming = new Intent(BrocastAction.BT_REPLY_MSG);
-					incoming.putExtra("msg", Properties.ALREADY_RECEIVER_CALL + incoming_number == null ? "" : incoming_number);
+					incoming.putExtra("msg", Properties.ALREADY_RECEIVER_CALL + (incoming_number == null ? "" : incoming_number));
 					mContext.sendBroadcast(incoming);
 
 					unregisterCallReceiver();
