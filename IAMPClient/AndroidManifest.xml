@@ -12,16 +12,19 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo_bt"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -39,8 +42,8 @@
         </activity>
         <activity
             android:name="com.meizu.bluetooth.BluetoothActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
 
         <service
@@ -87,9 +90,9 @@
                 <action android:name="com.meizu.socket.respond.answer.call" />
                 <action android:name="com.meizu.socket.respond.end.call" />
                 <action android:name="com.meizu.socket.respond.message" />
-                <action android:name="com.meizu.socket.respond.nothing" /> 
-                <action android:name="com.meizu.socket.respond.receive.sms" /> 
-                <action android:name="com.meizu.socket.respond.receive.mms" /> 
+                <action android:name="com.meizu.socket.respond.nothing" />
+                <action android:name="com.meizu.socket.respond.receive.sms" />
+                <action android:name="com.meizu.socket.respond.receive.mms" />
             </intent-filter>
         </receiver>
     </application>

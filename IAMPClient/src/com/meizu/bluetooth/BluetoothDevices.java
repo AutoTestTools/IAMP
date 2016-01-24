@@ -26,6 +26,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,7 +117,6 @@ public class BluetoothDevices extends Fragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
-
 			// When discovery finds a device
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				// Get the BluetoothDevice object from the Intent
@@ -167,7 +167,7 @@ public class BluetoothDevices extends Fragment {
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(BluetoothDevice.ACTION_FOUND);
-		filter.addAction(BluetoothDevice.ACTION_FOUND);
+		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		mContext.registerReceiver(mReceiver, filter);
 
 		adapter = new MyAdapter(mContext);
@@ -182,12 +182,12 @@ public class BluetoothDevices extends Fragment {
 				if (mBtAdapter.isDiscovering()) {
 
 					mBtAdapter.cancelDiscovery();
-					bt.setImageDrawable(mContext.getDrawable(R.drawable.stop));
+					bt.setImageDrawable(mContext.getDrawable(R.drawable.refresh));
 
 				} else {
 
 					mBtAdapter.startDiscovery();
-					bt.setImageDrawable(mContext.getDrawable(R.drawable.refresh));
+					bt.setImageDrawable(mContext.getDrawable(R.drawable.stop));
 
 					bList.clear();
 
@@ -219,7 +219,7 @@ public class BluetoothDevices extends Fragment {
 					pairAnotherDevice(pair);// 请求配对设备
 					myHandler.sendEmptyMessage(1);// 显示progressBar
 					pairThread.start();// 检测配对结果
-				}else{
+				} else {
 					myHandler.sendEmptyMessage(2);
 				}
 			}

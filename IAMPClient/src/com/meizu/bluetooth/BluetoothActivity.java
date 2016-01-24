@@ -12,10 +12,14 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.meizu.client.ConnectService;
+import com.meizu.event.htmlOut;
 import com.meizu.iamp.client.R;
 import com.meizu.info.BrocastAction;
 import com.meizu.info.PhoneNumber;
@@ -27,11 +31,14 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 	private Fragment currentFrag;
 	private FragmentTransaction transaction;
 	private TextView[] titles = new TextView[3];
+	private Button bt_refresh;
+	private Button bt_createRepote;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
 		// TODO Auto-generated method stub
 		super.onCreate(bundle);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.bt_main);
 
 		manager = getFragmentManager();
@@ -39,6 +46,8 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		titles[0] = (TextView) findViewById(R.id.bt_devices);
 		titles[1] = (TextView) findViewById(R.id.bt_talk);
 		titles[2] = (TextView) findViewById(R.id.myinfo);
+		bt_refresh = (Button) findViewById(R.id.refresh);
+		bt_createRepote = (Button) findViewById(R.id.create_reporte);
 
 		titles[0].setOnClickListener(this);
 		titles[1].setOnClickListener(this);
@@ -49,9 +58,27 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		registerReceiver();
 
 		startConnectService();
-		
-		new PhoneNumber(getApplicationContext());//设置本机号码
 
+		new PhoneNumber(getApplicationContext());// 设置本机号码
+
+		bt_refresh.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		bt_createRepote.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				htmlOut.creathtml();
+				Toast.makeText(getApplicationContext(), "报告已生成，存放于更目录下！", Toast.LENGTH_SHORT).show();
+
+			}
+		});
 	}
 
 	@Override
@@ -70,6 +97,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 			titles[0].setTextColor(Properties.GREEN);
 			titles[1].setTextColor(Color.BLACK);
 			titles[2].setTextColor(Color.BLACK);
+			bt_createRepote.setVisibility(View.GONE);
 			newFragment = new BluetoothDevices();
 			break;
 
@@ -77,6 +105,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 			titles[0].setTextColor(Color.BLACK);
 			titles[1].setTextColor(Properties.GREEN);
 			titles[2].setTextColor(Color.BLACK);
+			bt_createRepote.setVisibility(View.VISIBLE);
 			newFragment = getTalkPage();
 			break;
 
@@ -84,6 +113,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 			titles[0].setTextColor(Color.BLACK);
 			titles[1].setTextColor(Color.BLACK);
 			titles[2].setTextColor(Properties.GREEN);
+			bt_createRepote.setVisibility(View.GONE);
 			newFragment = new MyInfomation();
 			break;
 
@@ -93,7 +123,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		display(newFragment);
 	}
 
-	/**在同一layout中切换Fragment(不重新加载fragment)*/
+	/** 在同一layout中切换Fragment(不重新加载fragment) */
 	private void display(Fragment displayFrag) {
 		if (currentFrag != displayFrag) {
 			transaction = manager.beginTransaction();

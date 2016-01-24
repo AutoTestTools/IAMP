@@ -3,7 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <!-- 自定义标题栏 -->
+
+    <include
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        layout="@layout/title_request" />
 
     <LinearLayout
         android:id="@+id/tab"
@@ -37,12 +43,12 @@
             android:text="@string/me" />
     </LinearLayout>
 
-        <FrameLayout 
+    <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tab">
-        
+        android:layout_above="@id/tab"
+        android:layout_below="@+id/title" >
     </FrameLayout>
-    
+
 </RelativeLayout>

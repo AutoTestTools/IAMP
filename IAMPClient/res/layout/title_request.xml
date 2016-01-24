@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_main"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#000000"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/app_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:background="@drawable/logo_bt" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5sp"
+        android:layout_weight="20"
+        android:text="@string/app_name"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:background="@drawable/refresh0"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/create_reporte"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:background="@drawable/reporter"
+        android:visibility="gone" />
+
+</LinearLayout>

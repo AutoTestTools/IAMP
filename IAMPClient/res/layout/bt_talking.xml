@@ -13,14 +13,15 @@
         android:text="11:22:33:44"
         android:textColor="@color/whilte"
         android:textSize="28sp" />
-    
-     <ImageButton
+
+    <ImageButton
         android:id="@+id/back_to_history"
         android:layout_width="35dip"
         android:layout_height="35dip"
         android:layout_alignLeft="@id/talker_ip"
-        android:src="@drawable/back"
-        android:contentDescription="返回对话历史列表" />
+        android:layout_alignParentTop="true"
+        android:contentDescription="返回对话历史列表"
+        android:src="@drawable/back" />
 
     <LinearLayout
         android:id="@+id/msg_layout"

@@ -26,6 +26,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -54,7 +55,8 @@ public class TalkHistory extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
+		
+		
 		mContext = getActivity();
 
 	}
@@ -115,10 +117,10 @@ public class TalkHistory extends Fragment {
 		for (int i = 0; i < dataList.size(); i++) {
 			String mac = dataList.get(i).getFrom_mac();
 			String name = "";
-			if(mac.equals(BluetoothInfo.getOneAddress())){
+			if (mac.equals(BluetoothInfo.getOneAddress())) {
 				mac = dataList.get(i).getTo_mac();
 				name = dataList.get(i).getTo_name();
-			}else{
+			} else {
 				name = dataList.get(i).getFrom_name();
 			}
 			String msg = dataList.get(i).getMsg();
@@ -238,7 +240,7 @@ public class TalkHistory extends Fragment {
 			}
 		}
 	}
-	
+
 	private void setCurTalking() {
 		// TODO Auto-generated method stub
 		CurReqPage.setTalking(true);
