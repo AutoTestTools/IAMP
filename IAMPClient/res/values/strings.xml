@@ -3,7 +3,7 @@
 
     <string name="app_name">IAMP</string>
     <string name="action_settings">settings</string>
-    <string name="auth_name">手机端技术支持</string>
+    <string name="auth_name">by手机端技术支持</string>
     <string name="crate_room">创建房间</string>
     <string name="join_room">进入房间</string>
     <string name="quit_room">退出房间</string>
@@ -18,9 +18,14 @@
     <string name="me">我</string>
     <string name="device_filter">可通过蓝牙名称、地址关键字搜索</string>
     <string name="history_filter">可通过蓝牙名称关键字搜索</string>
+    <string name="input">请输入内容</string>
+    <string name="send">发送</string>
+    <string name="choose">+</string>
+    <string name="bt_icon">蓝牙图标</string>
     
     <color name="black">#000000</color>
     <color name="whilte">#ffffff</color>
     <color name="gray">#cccccc</color>
+    <color name="blue">#63B8FF</color>
     
 </resources>

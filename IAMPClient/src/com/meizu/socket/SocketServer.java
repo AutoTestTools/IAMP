@@ -55,9 +55,9 @@ public class SocketServer {
 					informNum();
 
 					while (isStartRecieveMsg) {
-						
+
 						String data = null;
-						
+
 						if ((data = mReader.readLine()) != null) {
 							/*
 							 * 读取一行字符串，读取的内容来自于客户机 reader.readLine()方法是一个阻塞方法，
@@ -95,7 +95,7 @@ public class SocketServer {
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					initSocket();
-					
+
 					e.printStackTrace();
 				}
 				return null;
@@ -133,8 +133,12 @@ public class SocketServer {
 					JSONObject json = new JSONObject();
 					json.put("title", Properties.CREATE_ROOM);
 					json.put("msg", "create room ");
-					mWriter.write(json.toString() + "\n");
-					mWriter.flush();
+					if (mWriter != null) {
+						mWriter.write(json.toString() + "\n");
+						mWriter.flush();
+					}else{
+						mHandler.sendEmptyMessage(Properties.SOCKET_OUTTIME);
+					}
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					initSocket();
@@ -155,8 +159,12 @@ public class SocketServer {
 					json.put("title", Properties.JOIN_ROOM);
 					json.put("room", room);
 					json.put("msg", "join room " + room);
-					mWriter.write(json.toString() + "\n");
-					mWriter.flush();
+					if (mWriter != null) {
+						mWriter.write(json.toString() + "\n");
+						mWriter.flush();
+					}else{
+						mHandler.sendEmptyMessage(Properties.SOCKET_OUTTIME);
+					}
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					initSocket();
@@ -187,10 +195,10 @@ public class SocketServer {
 			}
 		}.execute();
 	}
-	
+
 	public void requestMessage() {
 		new AsyncTask<String, Integer, String>() {
-			
+
 			@Override
 			protected String doInBackground(String... params) {
 				try {

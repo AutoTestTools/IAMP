@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="100dip"
+        android:layout_marginTop="100dip"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/logo" />
 
     <Button
         android:id="@+id/wifi_model"
-        android:layout_width="wrap_content"
+        android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="50dip"
+        android:layout_centerInParent="true"
+        android:textColor="@color/whilte"
+        android:background="@drawable/button_blue"
         android:onClick="model"
         android:text="@string/wifi_model" />
 
     <Button
         android:id="@+id/buletooth_model"
-        android:layout_width="wrap_content"
+        android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_below="@id/wifi_model"
+        android:layout_marginTop="10dip"
+        android:layout_centerInParent="true"
+        android:textColor="@color/whilte"
+        android:background="@drawable/button_blue"
         android:onClick="model"
         android:text="@string/buletooth_model" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/auth_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:text="@string/auth_name" />
+
+</RelativeLayout>

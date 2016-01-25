@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SocketHandler extends Handler {
 
@@ -26,6 +27,10 @@ public class SocketHandler extends Handler {
 	public void handleMessage(Message msgStr) {
 		// TODO Auto-generated method stub
 		super.handleMessage(msgStr);
+		if(msgStr.what == Properties.SOCKET_OUTTIME){
+			Toast.makeText(mContext, "wifi服务未开启，请联系开发人员", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		JSONObject json = null;
 		String title = "";
 		String msg = "";

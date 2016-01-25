@@ -40,6 +40,7 @@ public class Properties {
 	public final static String JOIN_ROOM = "JOIN_ROOM";
 	public final static String QUIT_ROOM = "QUIT_ROOM";
 	public final static String REQUEST = "REQUEST";
+	public final static int SOCKET_OUTTIME = -1;
 	
 	public final static int BT_CONNECTINT = -1;
 	public final static int BT_CONNECTED = 0;
@@ -53,5 +54,6 @@ public class Properties {
 	
 	public final static int GREEN = Color.rgb(60, 179, 113);
 	public final static int PURPLE = Color.rgb(171, 130, 255);
+	public final static int BLUE = Color.rgb(99, 180, 255);
 	
 }

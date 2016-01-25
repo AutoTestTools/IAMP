@@ -86,8 +86,8 @@ public class NewRoomActivity extends Activity {
 		switch (view.getId()) {
 
 		case R.id.crate_room:
-			createRoom();
 			Toast.makeText(mContext, "正在创建房间，请等待……", Toast.LENGTH_LONG).show();
+			createRoom();
 			break;
 		case R.id.join_room:
 			joinRoom();
@@ -106,10 +106,10 @@ public class NewRoomActivity extends Activity {
 		new AlertDialog.Builder(this).setTitle("请输入房间号").setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
+				Toast.makeText(mContext, "正在进入房间，请等待……", Toast.LENGTH_LONG).show();
 				Intent join = new Intent(BrocastAction.JOIN_ROOM);
 				join.putExtra("room", et.getText().toString());
 				sendBroadcast(join);
-				Toast.makeText(mContext, "正在进入房间，请等待……", Toast.LENGTH_LONG).show();
 			}
 		}).setNegativeButton("取消", null).show();
 	}

@@ -2,34 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:orientation="vertical" >
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:contentDescription="@string/logo" />
 
     <Button
         android:id="@+id/crate_room"
-        android:layout_width="wrap_content"
+        android:layout_width="100dip"
         android:layout_height="wrap_content"
         android:onClick="room"
+        android:background="@drawable/button_blue"
+        android:textColor="@color/whilte"
         android:text="@string/crate_room" />
 
     <Button
         android:id="@+id/join_room"
-        android:layout_width="wrap_content"
+        android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
         android:onClick="room"
+        android:background="@drawable/button_blue"
+        android:textColor="@color/whilte"
         android:text="@string/join_room" />
-
-    <TextView
-        android:id="@+id/auth_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/auth_name" />
 
 </LinearLayout>
