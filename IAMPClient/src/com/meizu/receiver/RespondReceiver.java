@@ -10,6 +10,7 @@ import com.meizu.event.Model;
 import com.meizu.event.Room;
 import com.meizu.event.Telephony;
 import com.meizu.info.BrocastAction;
+import com.meizu.info.PhoneNumber;
 import com.meizu.info.Properties;
 import com.meizu.litepal.Data;
 
@@ -32,6 +33,8 @@ public class RespondReceiver extends BroadcastReceiver {
 			String msg = intent.getStringExtra("msg");
 
 			addReceiveData(context, msg);
+			
+			PhoneNumber.setTheOtherNumber(phone);//设置对方号码
 
 			//打电话操作
 			Telephony tp = new Telephony(context);
@@ -85,6 +88,8 @@ public class RespondReceiver extends BroadcastReceiver {
 			String msg = intent.getStringExtra("msg");
 
 			addReceiveData(context, msg);
+			
+			PhoneNumber.setTheOtherNumber(phone);//设置对方号码
 			
 			//发短信操作
 			Message m = new Message(context);

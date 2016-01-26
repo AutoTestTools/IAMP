@@ -4,6 +4,7 @@ public class BrocastAction {
 	
 	
 	public final static String BT_TAB_CHANGE = "com.meizu.bt.tab_change";
+	public final static String BT_CLOSE = "com.meizu.bt.close";
 	public final static String START_BT_SERVER = "com.meizu.bt.start_server";
 	public final static String START_BT_CLIENT = "com.meizu.bt.start_client";
 	public final static String STOP_BT_SERVER = "com.meizu.bt.stop_server";

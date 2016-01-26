@@ -42,6 +42,7 @@
         </activity>
         <activity
             android:name="com.meizu.bluetooth.BluetoothActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
@@ -62,6 +63,7 @@
                 <action android:name="com.meizu.bt.start_client" />
                 <action android:name="com.meizu.bt.stop_server" />
                 <action android:name="com.meizu.bt.stop_client" />
+                <action android:name="com.meizu.bt.close" />
                 <action android:name="com.meizu.bt.send_msg" />
                 <action android:name="com.meizu.bt.reply_msg" />
             </intent-filter>

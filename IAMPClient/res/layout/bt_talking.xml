@@ -22,6 +22,15 @@
         android:layout_alignParentTop="true"
         android:contentDescription="返回对话历史列表"
         android:src="@drawable/back" />
+    
+    <ImageButton
+        android:id="@+id/close"
+        android:layout_width="35dip"
+        android:layout_height="35dip"
+        android:layout_alignRight="@id/talker_ip"
+        android:layout_alignParentTop="true"
+        android:contentDescription="关闭对话连接"
+        android:src="@drawable/close" />
 
     <LinearLayout
         android:id="@+id/msg_layout"
@@ -33,7 +42,7 @@
         <Button
             android:id="@+id/choose"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dip"
             android:background="@drawable/button_blue"
             android:text="@string/choose"
             android:textColor="@color/whilte" />
@@ -52,7 +61,7 @@
         <Button
             android:id="@+id/send"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dip"
             android:background="@drawable/button_blue"
             android:text="@string/send"
             android:textColor="@color/whilte" />

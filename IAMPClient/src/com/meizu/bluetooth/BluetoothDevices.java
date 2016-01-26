@@ -102,7 +102,7 @@ public class BluetoothDevices extends Fragment {
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		myHandler.sendEmptyMessage(4);
+		mHandler.sendEmptyMessage(4);
 	}
 
 	@Override
@@ -134,14 +134,14 @@ public class BluetoothDevices extends Fragment {
 					String name = device.getName();
 					String address = device.getAddress();
 					bList.add(new ScanBluetoothInfo(name == null ? "Unkwon Device" : name, address == null ? "Unkwon Address" : address, false));
-					myHandler.sendEmptyMessage(0);
+					mHandler.sendEmptyMessage(0);
 				}
 				// When discovery is finished, change the Activity title
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				if (bList.size() == 0) {
 					Toast.makeText(mContext, "没有发现蓝牙设备", Toast.LENGTH_SHORT).show();
 				}
-				myHandler.sendEmptyMessage(4);
+				mHandler.sendEmptyMessage(4);
 			}
 		}
 	};
@@ -180,7 +180,7 @@ public class BluetoothDevices extends Fragment {
 		adapter = new MyAdapter(mContext);
 		
 		mBtAdapter.startDiscovery();
-		myHandler.sendEmptyMessage(5);
+		mHandler.sendEmptyMessage(5);
 
 		bt.setOnClickListener(new OnClickListener() {
 
@@ -190,12 +190,12 @@ public class BluetoothDevices extends Fragment {
 				if (mBtAdapter.isDiscovering()) {
 
 					mBtAdapter.cancelDiscovery();
-					myHandler.sendEmptyMessage(4);
+					mHandler.sendEmptyMessage(4);
 
 				} else {
 
 					mBtAdapter.startDiscovery();
-					myHandler.sendEmptyMessage(5);
+					mHandler.sendEmptyMessage(5);
 
 					bList.clear();
 
@@ -205,7 +205,7 @@ public class BluetoothDevices extends Fragment {
 							String name = device.getName();
 							String address = device.getAddress();
 							bList.add(new ScanBluetoothInfo(name == null ? "Unkwon Device" : name, address == null ? "Unkwon Address" : address, true));
-							myHandler.sendEmptyMessage(0);
+							mHandler.sendEmptyMessage(0);
 						}
 					} else {
 						Toast.makeText(mContext, "没有已配对设备", Toast.LENGTH_SHORT).show();
@@ -225,10 +225,10 @@ public class BluetoothDevices extends Fragment {
 					pair = mBtAdapter.getRemoteDevice(BluetoothInfo.getTheOtherAddress());
 					pairIndex = position;
 					pairAnotherDevice(pair);// 请求配对设备
-					myHandler.sendEmptyMessage(1);// 显示progressBar
+					mHandler.sendEmptyMessage(1);// 显示progressBar
 					pairThread.start();// 检测配对结果
 				} else {
-					myHandler.sendEmptyMessage(2);
+					mHandler.sendEmptyMessage(2);
 				}
 			}
 		});
@@ -239,7 +239,7 @@ public class BluetoothDevices extends Fragment {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
 				mData = getData(s.toString());
-				myHandler.sendEmptyMessage(0);
+				mHandler.sendEmptyMessage(0);
 			}
 
 			@Override
@@ -336,7 +336,7 @@ public class BluetoothDevices extends Fragment {
 
 	}
 
-	Handler myHandler = new Handler() {
+	Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 
@@ -389,7 +389,7 @@ public class BluetoothDevices extends Fragment {
 					while (System.currentTimeMillis() - curTime <= 60 * 1000) {
 						if (pair.getBondState() == BluetoothDevice.BOND_BONDED) {
 							bList.set(pairIndex, new ScanBluetoothInfo(pair.getName(), pair.getAddress(), true));
-							myHandler.sendEmptyMessage(2);// 配对成功
+							mHandler.sendEmptyMessage(2);// 配对成功
 							flag = true;
 							break;
 						} else {
@@ -401,7 +401,7 @@ public class BluetoothDevices extends Fragment {
 						}
 					}
 					if (!flag)
-						myHandler.sendEmptyMessage(3);// 超时，配对不成功
+						mHandler.sendEmptyMessage(3);// 超时，配对不成功
 				}
 			});
 

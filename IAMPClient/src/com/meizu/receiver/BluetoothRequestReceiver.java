@@ -20,6 +20,12 @@ public class BluetoothRequestReceiver extends BroadcastReceiver {
 		boolean isSend = false;
 		String action = intent.getAction();
 		switch (action) {
+		
+		case BrocastAction.BT_CLOSE:
+			btServer.shutdownClient();
+			btServer.shutdownServer();
+			btServer.sendMessageHandle(Properties.BT_REQUEST, Properties.CLOST_BT_CONNECTION + Properties.PHONE_MARK + PhoneNumber.getOneNumber());
+			break;
 
 		case BrocastAction.START_BT_SERVER:
 			btServer.startBtServer();
@@ -31,7 +37,7 @@ public class BluetoothRequestReceiver extends BroadcastReceiver {
 
 		case BrocastAction.STOP_BT_SERVER:
 			btServer.shutdownServer();
-
+			break;
 		case BrocastAction.STOP_BT_CLIENT:
 			btServer.shutdownClient();
 			break;

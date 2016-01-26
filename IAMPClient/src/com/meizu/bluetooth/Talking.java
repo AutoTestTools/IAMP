@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,6 +46,7 @@ public class Talking extends Fragment implements OnClickListener {
 	private ImageView img;
 	private EditText et;
 	private Button send, choose;
+	private ImageButton close;
 
 	private List<Map<String, Object>> mData;
 	private List<Data> dataList;
@@ -75,19 +77,23 @@ public class Talking extends Fragment implements OnClickListener {
 		img = (ImageView) view.findViewById(R.id.back_to_history);// 返回按钮
 		send = (Button) view.findViewById(R.id.send);// 发送
 		choose = (Button) view.findViewById(R.id.choose);
+		close = (ImageButton) view.findViewById(R.id.close);
 
 		mList.setDividerHeight(0);// 设为无分割线模式
 		ip.setText(CurReqPage.getTalker_mac());
 		img.setOnClickListener(this);
 		send.setOnClickListener(this);
 		choose.setOnClickListener(this);
+		close.setOnClickListener(this);
 
 		if (CurReqPage.getTalker_mac().equals(BluetoothInfo.getTheOtherAddress())) {// 如果当前聊天界面是当前的对话界面，则添加按钮及发送按钮可以点击
 			send.setEnabled(true);
 			choose.setEnabled(true);
+			close.setEnabled(true);
 		} else {// 否则不可点击
 			send.setEnabled(false);
 			choose.setEnabled(false);
+			close.setEnabled(false);
 		}
 
 		adapter = new MyAdapter(mContext);
@@ -214,11 +220,15 @@ public class Talking extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		switch (view.getId()) {
+		case R.id.close:
+			Intent closeIntent = new Intent(BrocastAction.BT_CLOSE);
+			mContext.sendBroadcast(closeIntent);
+			BluetoothInfo.setTheOtherAddress("null");
+			BluetoothInfo.setTheOtherName("null");
+			closeTalking();
+			break;
 		case R.id.back_to_history:
-			CurReqPage.setTalking(false);
-			Intent tabIntent = new Intent(BrocastAction.BT_TAB_CHANGE);
-			tabIntent.putExtra("tab", R.id.bt_talk);
-			mContext.sendBroadcast(tabIntent);
+			closeTalking();
 			break;
 		case R.id.send:
 			String msg = et.getText().toString();
@@ -300,6 +310,13 @@ public class Talking extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		unregisterReceiver();
+	}
+	
+	private void closeTalking(){
+		CurReqPage.setTalking(false);
+		Intent tabIntent = new Intent(BrocastAction.BT_TAB_CHANGE);
+		tabIntent.putExtra("tab", R.id.bt_talk);
+		mContext.sendBroadcast(tabIntent);
 	}
 
 }

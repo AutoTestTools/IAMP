@@ -58,6 +58,16 @@ public class BluetoothHandler extends Handler {
 				action = BrocastAction.RESPOND_RECEIVE_SMS;
 			} else if (message[0].equals(Properties.TALK_ME_WHEN_RECEIVER_MMS)) {
 				action = BrocastAction.RESPOND_RECEIVE_MMS;
+			} else if (message[0].equals(Properties.CLOST_BT_CONNECTION)) {
+				
+				BluetoothInfo.setTheOtherAddress("null");
+				BluetoothInfo.setTheOtherName("null");
+				closeTalking();
+				
+				Intent serverClient = new Intent(BrocastAction.STOP_BT_CLIENT);
+				mContext.sendBroadcast(serverClient);
+				
+				action = BrocastAction.STOP_BT_SERVER;
 			} else {
 				action = BrocastAction.RESPOND_NOTHING;
 			}
@@ -88,6 +98,14 @@ public class BluetoothHandler extends Handler {
 		// TODO Auto-generated method stub
 		CurReqPage.setTalking(true);
 		CurReqPage.setTalker_mac(mac);
+		Intent tabIntent = new Intent(BrocastAction.BT_TAB_CHANGE);
+		tabIntent.putExtra("tab", R.id.bt_talk);
+		mContext.sendBroadcast(tabIntent);
+	}
+	
+	private void closeTalking() {
+		// TODO Auto-generated method stub
+		CurReqPage.setTalking(false);
 		Intent tabIntent = new Intent(BrocastAction.BT_TAB_CHANGE);
 		tabIntent.putExtra("tab", R.id.bt_talk);
 		mContext.sendBroadcast(tabIntent);

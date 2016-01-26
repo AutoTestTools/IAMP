@@ -70,7 +70,7 @@ public class BluetoothServer {
 				mserverSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(BluetoothInfo.getOneAddress(), UUID.fromString(Properties.BLUETOOTH_UUID));
 
 				Message msg = new Message();
-				msg.obj = "请稍候，正在等待客户端的连接...";
+				msg.obj = "服务端已开启，客户端可连接...";
 				msg.what = 0;
 				mHandler.sendMessage(msg);
 
@@ -238,6 +238,7 @@ public class BluetoothServer {
 				} catch (IOException e) {
 					Log.e("server", "mserverSocket.close()", e);
 				}
+				startBtServer();
 			};
 		}.start();
 	}

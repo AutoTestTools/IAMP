@@ -3,10 +3,152 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-        <ListView
-            android:id="@+id/lv_myinfo_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip" >
+
+        <TextView
+            android:id="@+id/info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/info_title"
+            android:textColor="@color/blue"
+            android:textSize="24sp" />
+
+        <ImageButton
+            android:id="@+id/change_title"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="60dip"
+            android:contentDescription="@string/rename"
+            android:src="@drawable/ic_swap_horiz_24" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginTop="40dip" >
+
+        <ImageButton
+            android:id="@+id/img_name"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:contentDescription="@string/info_icon"
+            android:src="@drawable/ic_person_24" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/img_name"
+            android:text="@string/info_name"
+            android:textColor="@color/blue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_name"
+            android:layout_marginLeft="8dip"
+            android:text="@string/info_title"
+            android:textColor="@color/green" />
+
+        <ImageButton
+            android:id="@+id/re_name"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/rename"
+            android:src="@drawable/ic_rename_24" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dip"
+        android:layout_marginRight="40dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/img_mac"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:contentDescription="@string/info_icon"
+            android:src="@drawable/ic_mac_24" />
+
+        <TextView
+            android:id="@+id/tv_mac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/img_mac"
+            android:text="@string/info_mac"
+            android:textSize="16sp"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/info_mac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_mac"
+            android:layout_marginLeft="8dip"
+            android:text="@string/info_title"
+            android:textColor="@color/green" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/img_phone"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:contentDescription="@string/info_icon"
+            android:src="@drawable/ic_phone_bluetooth_speaker_24" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/img_phone"
+            android:text="@string/info_phone"
+            android:textSize="16sp"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/info_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_phone"
+            android:layout_marginLeft="8dip"
+            android:text="@string/info_title"
+            android:textColor="@color/green" />
+
+        <ImageButton
+            android:id="@+id/re_phone"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/rename"
+            android:src="@drawable/ic_rename_24" />
+    </RelativeLayout>
 
 </LinearLayout>

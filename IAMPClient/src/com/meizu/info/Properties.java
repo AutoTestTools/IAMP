@@ -24,6 +24,7 @@ public class Properties {
 	public static String MESSAGE_ME = "给我发短信";
 	public static String TALK_ME_WHEN_RECEIVER_SMS = "收到短信告诉我";
 	public static String TALK_ME_WHEN_RECEIVER_MMS = "收到彩信告诉我";
+	public static String CLOST_BT_CONNECTION = "关闭蓝牙连接";
 	
 	/**自动回复文本*/
 	public static String CALL_ALREADY = "好的，我已拨打";

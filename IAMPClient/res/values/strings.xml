@@ -22,10 +22,17 @@
     <string name="send">发送</string>
     <string name="choose">+</string>
     <string name="bt_icon">蓝牙图标</string>
+    <string name="rename">重命名</string>
+    <string name="info_title">本机</string>
+    <string name="info_name">名称:</string>
+    <string name="info_mac">MAC:</string>
+    <string name="info_phone">号码:</string>
+    <string name="info_icon">图标</string>
     
     <color name="black">#000000</color>
     <color name="whilte">#ffffff</color>
     <color name="gray">#cccccc</color>
     <color name="blue">#63B8FF</color>
+    <color name="green">#3cb371</color>
     
 </resources>

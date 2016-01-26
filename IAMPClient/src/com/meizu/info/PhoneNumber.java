@@ -9,7 +9,17 @@ public class PhoneNumber {
 	private TelephonyManager telephonyMgr;
 
 	/** 本机默认SIM号码 */
-	private static String oneNumber = "";
+	private static String oneNumber = "null";
+	/** 最近一次发送短信或拨打电话的对方SIM号码 */
+	private static String theOtherNumber = "null";
+
+	public static String getTheOtherNumber() {
+		return theOtherNumber;
+	}
+
+	public static void setTheOtherNumber(String theOtherNumber) {
+		PhoneNumber.theOtherNumber = theOtherNumber;
+	}
 
 	public PhoneNumber(Context context) {
 		// TODO Auto-generated constructor stub
@@ -17,20 +27,21 @@ public class PhoneNumber {
 		try {
 			telephonyMgr = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
 			String phone = telephonyMgr.getLine1Number();
+			
 			if (phone != null)
 				setOneNumber(phone);
 			else
-				setOneNumber(" ");
+				setOneNumber("null");
 		} catch (Exception e) {
-			setOneNumber(" ");
+			setOneNumber("null");
 		}
 	}
 
 	public static String getOneNumber() {
 		return oneNumber;
 	}
-
-	private static void setOneNumber(String oneNumber) {
+	
+	public static void setOneNumber(String oneNumber) {
 		PhoneNumber.oneNumber = oneNumber;
 	}
 
