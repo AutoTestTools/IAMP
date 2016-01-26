@@ -14,6 +14,7 @@ import org.litepal.crud.DataSupport;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,10 +27,10 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -131,7 +132,7 @@ public class TalkHistory extends Fragment {
 			map.put("mac", mac);
 			map.put("name", name);
 			map.put("msg", msg);
-			map.put("time", time);
+			map.put("time", time.substring(0, time.length()-4));
 			list.add(map);
 		}
 		return list;
@@ -141,6 +142,7 @@ public class TalkHistory extends Fragment {
 		public TextView name;
 		public TextView msg;
 		public TextView time;
+		public ImageView img;
 	}
 
 	public class MyAdapter extends BaseAdapter {
@@ -180,6 +182,7 @@ public class TalkHistory extends Fragment {
 				holder.name = (TextView) convertView.findViewById(R.id.ht_name);
 				holder.msg = (TextView) convertView.findViewById(R.id.ht_sn);
 				holder.time = (TextView) convertView.findViewById(R.id.ht_time);
+				holder.img = (ImageView) convertView.findViewById(R.id.history_icon);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -188,6 +191,19 @@ public class TalkHistory extends Fragment {
 			holder.name.setText((highlight((String) mData.get(position).get("name"), text)));
 			holder.msg.setText((highlight((String) mData.get(position).get("msg"), text)));
 			holder.time.setText((highlight((String) mData.get(position).get("time"), text)));
+			
+			if(mData.get(position).get("mac").equals(BluetoothInfo.getTheOtherAddress())){
+				holder.img.setImageDrawable(mContext.getDrawable(R.drawable.ic_talking_current));
+				holder.name.setTextColor(Properties.BLUE);
+				holder.msg.setTextColor(Properties.BLUE);
+				holder.time.setTextColor(Properties.BLUE);
+			}else{
+				holder.img.setImageDrawable(mContext.getDrawable(R.drawable.ic_talking_history));
+				holder.name.setTextColor(Color.BLACK);
+				holder.msg.setTextColor(Color.BLACK);
+				holder.time.setTextColor(Color.BLACK);
+			}
+			
 			return convertView;
 		}
 

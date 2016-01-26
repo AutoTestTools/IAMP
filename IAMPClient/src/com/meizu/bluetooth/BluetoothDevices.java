@@ -55,7 +55,7 @@ public class BluetoothDevices extends Fragment {
 	private ProgressBar bar;
 
 	private List<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
-	private List<ScanBluetoothInfo> bList = new ArrayList<ScanBluetoothInfo>();
+	static private List<ScanBluetoothInfo> bList = new ArrayList<ScanBluetoothInfo>();
 
 	private MyAdapter adapter;
 
@@ -95,14 +95,13 @@ public class BluetoothDevices extends Fragment {
 			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, 3);
 		}
-		
-	}
-	
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		mHandler.sendEmptyMessage(4);
+
+		if (bList.size() == 0) {
+			mBtAdapter.startDiscovery();
+			mHandler.sendEmptyMessage(5);
+		} else {
+			mHandler.sendEmptyMessage(0);
+		}
 	}
 
 	@Override
@@ -129,7 +128,8 @@ public class BluetoothDevices extends Fragment {
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				// Get the BluetoothDevice object from the Intent
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				// If it's already paired, skip it, because it's been listed already
+				// If it's already paired, skip it, because it's been listed
+				// already
 				if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
 					String name = device.getName();
 					String address = device.getAddress();
@@ -178,9 +178,6 @@ public class BluetoothDevices extends Fragment {
 		mContext.registerReceiver(mReceiver, filter);
 
 		adapter = new MyAdapter(mContext);
-		
-		mBtAdapter.startDiscovery();
-		mHandler.sendEmptyMessage(5);
 
 		bt.setOnClickListener(new OnClickListener() {
 
@@ -327,7 +324,7 @@ public class BluetoothDevices extends Fragment {
 			if ((boolean) mData.get(position).get("isPaired")) {
 				holder.name.setTextColor(Properties.BLUE);
 				holder.address.setTextColor(Properties.BLUE);
-			}else{
+			} else {
 				holder.name.setTextColor(Color.BLACK);
 				holder.address.setTextColor(Color.BLACK);
 			}
@@ -364,10 +361,10 @@ public class BluetoothDevices extends Fragment {
 				mData = getData(mClearEditText.getText().toString());
 				mList.setAdapter(adapter);
 				break;
-			case 4://修改为刷新图标
+			case 4:// 修改为刷新图标
 				bt.setImageDrawable(mContext.getDrawable(R.drawable.refresh));
 				break;
-			case 5://修改为暂停图标
+			case 5:// 修改为暂停图标
 				bt.setImageDrawable(mContext.getDrawable(R.drawable.stop));
 				break;
 

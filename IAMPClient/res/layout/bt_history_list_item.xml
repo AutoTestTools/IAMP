@@ -1,40 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/history_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:contentDescription="@string/bt_icon"
+        android:src="@drawable/ic_talking_history" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dip"
         android:layout_weight="8"
-        android:orientation="vertical">
-        
-        <TextView
-        android:id="@+id/ht_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp" />
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/ht_sn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="987654321"
-        android:textSize="12sp" />
-    
+        <TextView
+            android:id="@+id/ht_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ht_sn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:text="987654321"
+            android:textSize="12sp" />
     </LinearLayout>
-    
+
     <TextView
         android:id="@+id/ht_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginRight="5dip"
+        android:layout_weight="1"
         android:text="17:59"
         android:textSize="14sp" />
-
 
 </LinearLayout>

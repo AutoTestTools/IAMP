@@ -180,8 +180,10 @@ public class Talking extends Fragment implements OnClickListener {
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			holder.time.setVisibility(View.INVISIBLE);
 			if (byMe) {
-				holder.myname.setText(name);
+//				holder.myname.setText(name);
+//				holder.myname.setVisibility(View.GONE);
 				holder.yourname.setText("");
 				holder.myname.setVisibility(View.VISIBLE);
 				holder.yourname.setVisibility(View.INVISIBLE);

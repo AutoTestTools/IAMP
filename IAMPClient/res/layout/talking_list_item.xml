@@ -43,7 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="我的名字" />
+        android:visibility="gone"
+        android:text="  " />
         
     </LinearLayout>
 
