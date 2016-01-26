@@ -55,7 +55,8 @@ public class BluetoothDevices extends Fragment {
 	private ProgressBar bar;
 
 	private List<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
-	static private List<ScanBluetoothInfo> bList = new ArrayList<ScanBluetoothInfo>();
+	private List<ScanBluetoothInfo> bList = new ArrayList<ScanBluetoothInfo>();
+	static private List<ScanBluetoothInfo> tList = new ArrayList<ScanBluetoothInfo>();
 
 	private MyAdapter adapter;
 
@@ -96,7 +97,7 @@ public class BluetoothDevices extends Fragment {
 			startActivityForResult(enableIntent, 3);
 		}
 
-		if (bList.size() == 0) {
+		if (tList.size() == 0) {
 			mBtAdapter.startDiscovery();
 			mHandler.sendEmptyMessage(5);
 		} else {
@@ -138,7 +139,7 @@ public class BluetoothDevices extends Fragment {
 				}
 				// When discovery is finished, change the Activity title
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-				if (bList.size() == 0) {
+				if (tList.size() == 0) {
 					Toast.makeText(mContext, "没有发现蓝牙设备", Toast.LENGTH_SHORT).show();
 				}
 				mHandler.sendEmptyMessage(4);
@@ -150,7 +151,7 @@ public class BluetoothDevices extends Fragment {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = null;
 
-		for (ScanBluetoothInfo b : bList) {
+		for (ScanBluetoothInfo b : tList) {
 			String name = b.name;
 			String address = b.address;
 			if (!filter.equals("") && !name.contains(filter) && !address.contains(filter))
@@ -185,28 +186,14 @@ public class BluetoothDevices extends Fragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (mBtAdapter.isDiscovering()) {
-
 					mBtAdapter.cancelDiscovery();
 					mHandler.sendEmptyMessage(4);
-
 				} else {
-
+					bList.clear();
+					mBtAdapter.cancelDiscovery();
 					mBtAdapter.startDiscovery();
 					mHandler.sendEmptyMessage(5);
-
-					bList.clear();
-
-					Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-					if (pairedDevices.size() > 0) {
-						for (BluetoothDevice device : pairedDevices) {
-							String name = device.getName();
-							String address = device.getAddress();
-							bList.add(new ScanBluetoothInfo(name == null ? "Unkwon Device" : name, address == null ? "Unkwon Address" : address, true));
-							mHandler.sendEmptyMessage(0);
-						}
-					} else {
-						Toast.makeText(mContext, "没有已配对设备", Toast.LENGTH_SHORT).show();
-					}
+					
 				}
 			}
 		});
@@ -339,6 +326,9 @@ public class BluetoothDevices extends Fragment {
 
 			switch (msg.what) {
 			case 0:
+				if (bList.size() != 0) {
+					tList = bList;
+				}
 				mData = getData(mClearEditText.getText().toString());
 				mList.setAdapter(adapter);
 				mList.setClickable(true);
@@ -366,6 +356,17 @@ public class BluetoothDevices extends Fragment {
 				break;
 			case 5:// 修改为暂停图标
 				bt.setImageDrawable(mContext.getDrawable(R.drawable.stop));
+				Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();// 获取已配对设备
+				if (pairedDevices.size() > 0) {
+					for (BluetoothDevice device : pairedDevices) {
+						String name = device.getName();
+						String address = device.getAddress();
+						bList.add(new ScanBluetoothInfo(name == null ? "Unkwon Device" : name, address == null ? "Unkwon Address" : address, true));
+						mHandler.sendEmptyMessage(0);
+					}
+				} else {
+					Toast.makeText(mContext, "没有已配对设备", Toast.LENGTH_SHORT).show();
+				}
 				break;
 
 			default:

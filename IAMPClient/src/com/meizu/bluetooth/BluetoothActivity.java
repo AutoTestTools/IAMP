@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -167,6 +168,9 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(BrocastAction.BT_TAB_CHANGE)) {
 				setCurrentFragment(intent.getIntExtra("tab", R.id.bt_devices));
+				/* 取得默认的蓝牙适配器 */
+				BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+				mBtAdapter.cancelDiscovery();//切换界面后，将扫描设备状态停止
 			}
 
 		}
