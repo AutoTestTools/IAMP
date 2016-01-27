@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/receiver"
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dip"
+        android:background="@drawable/button_green"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="@string/receiver"
+        android:textColor="@color/whilte" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/receiver"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_weight="2" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:text="@string/send"
+            android:textColor="@color/whilte" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -21,8 +21,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.meizu.iamp.client.permission.SEND_MESSAGE" />
-    
-    <permission android:protectionLevel="normal" android:name="com.meizu.iamp.client.permission.SEND_MESSAGE"></permission>
+
+    <permission
+        android:name="com.meizu.iamp.client.permission.SEND_MESSAGE"
+        android:protectionLevel="normal" >
+    </permission>
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -45,8 +48,8 @@
         </activity>
         <activity
             android:name="com.meizu.bluetooth.BluetoothActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
 
@@ -59,7 +62,7 @@
 
         <receiver
             android:name="com.meizu.receiver.BluetoothRequestReceiver"
-            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE">
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.meizu.bt.tab_change" />
                 <action android:name="com.meizu.bt.start_server" />

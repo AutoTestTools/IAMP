@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.meizu.client"
+    package="com.meizu.iamp.client"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.meizu.iamp.client.permission.SEND_MESSAGE" />
+
+    <permission
+        android:name="com.meizu.iamp.client.permission.SEND_MESSAGE"
+        android:protectionLevel="normal" >
+    </permission>
 
     <application
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo_bt"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -25,17 +42,67 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name="com.meizu.client.MyRoomActivity" >
+        <activity android:name="com.meizu.socket.NewRoomActivity" >
         </activity>
-        
-        <service 
+        <activity android:name="com.meizu.socket.MyRoomActivity" >
+        </activity>
+        <activity
+            android:name="com.meizu.bluetooth.BluetoothActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+
+        <service
             android:name="com.meizu.client.ConnectService"
-            android:exported="false">
-            <intent-filter android:priority="1000"></intent-filter>
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+            </intent-filter>
         </service>
-        
+
+        <receiver
+            android:name="com.meizu.receiver.BluetoothRequestReceiver"
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.bt.tab_change" />
+                <action android:name="com.meizu.bt.start_server" />
+                <action android:name="com.meizu.bt.start_client" />
+                <action android:name="com.meizu.bt.stop_server" />
+                <action android:name="com.meizu.bt.stop_client" />
+                <action android:name="com.meizu.bt.close" />
+                <action android:name="com.meizu.bt.send_msg" />
+                <action android:name="com.meizu.bt.reply_msg" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.meizu.receiver.SocketRequestReceiver"
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.socket.init_socket" />
+                <action android:name="com.meizu.socket.inform_state" />
+                <action android:name="com.meizu.socket.create_room" />
+                <action android:name="com.meizu.socket.join_room" />
+                <action android:name="com.meizu.socket.quit_room" />
+                <action android:name="com.meizu.socket.request.call" />
+                <action android:name="com.meizu.socket.request.message" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.meizu.receiver.RespondReceiver"
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.meizu.socket.respond.create_room" />
+                <action android:name="com.meizu.socket.respond.join_room" />
+                <action android:name="com.meizu.socket.respond.call" />
+                <action android:name="com.meizu.socket.respond.receiver.call" />
+                <action android:name="com.meizu.socket.respond.answer.call" />
+                <action android:name="com.meizu.socket.respond.end.call" />
+                <action android:name="com.meizu.socket.respond.message" />
+                <action android:name="com.meizu.socket.respond.nothing" />
+                <action android:name="com.meizu.socket.respond.receive.sms" />
+                <action android:name="com.meizu.socket.respond.receive.mms" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

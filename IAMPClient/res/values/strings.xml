@@ -13,6 +13,7 @@
     
     <string name="wifi_model">wifi 模式</string>
     <string name="buletooth_model">蓝牙模式</string>
+    <string name="demo_apk">第三方demo</string>
     <string name="bt_devices">设备</string>
     <string name="bt_talk">请求</string>
     <string name="me">我</string>
