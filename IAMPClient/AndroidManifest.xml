@@ -20,6 +20,9 @@
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.meizu.iamp.client.permission.SEND_MESSAGE" />
+    
+    <permission android:protectionLevel="normal" android:name="com.meizu.iamp.client.permission.SEND_MESSAGE"></permission>
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -56,7 +59,7 @@
 
         <receiver
             android:name="com.meizu.receiver.BluetoothRequestReceiver"
-            android:exported="false" >
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE">
             <intent-filter android:priority="1000" >
                 <action android:name="com.meizu.bt.tab_change" />
                 <action android:name="com.meizu.bt.start_server" />
@@ -70,7 +73,7 @@
         </receiver>
         <receiver
             android:name="com.meizu.receiver.SocketRequestReceiver"
-            android:exported="false" >
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.meizu.socket.init_socket" />
                 <action android:name="com.meizu.socket.inform_state" />
@@ -83,7 +86,7 @@
         </receiver>
         <receiver
             android:name="com.meizu.receiver.RespondReceiver"
-            android:exported="false" >
+            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.meizu.socket.respond.create_room" />
                 <action android:name="com.meizu.socket.respond.join_room" />
