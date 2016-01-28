@@ -1,15 +1,18 @@
 package com.meizu.event;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Map;
 
 import org.litepal.crud.DataSupport;
 
+import com.meizu.bluetooth.CurReqPage;
 import com.meizu.info.BluetoothInfo;
 import com.meizu.litepal.Data;
 import com.meizu.litepal.DataNew;
@@ -22,30 +25,26 @@ public class htmlOut {
 	static ArrayList<String> temp = new ArrayList<String>();
 	static ArrayList<ArrayList<String>> group_name = new ArrayList<ArrayList<String>>();
 	static String sdPath = Environment.getExternalStorageDirectory().toString();
+	static String strFilePath = sdPath + "/AIAMP";
 
 	@SuppressLint("SdCardPath")
-	public static void creathtml() {
-
-		// DataSupport.deleteAll(Data.class);// test
-		// for (int i = 0; i < 3; i++) {
-		// Data mData = new Data();
-		// mData.setFrom_mac("mac" + i);
-		// mData.setFrom_name("name" + i);
-		// mData.setTo_mac("tomac" + i);
-		// mData.setTo_name("toname" + i);
-		// mData.setMsg("msg" + i);
-		// mData.setTime("20160101" + i);
-		// mData.save();
-		// }
+	public static boolean creathtml() {
 
 		// List<Data> dataList = dataProcessing();
+		List<Data> dataList;
+		if (CurReqPage.isTalking()) {
+			dataList = DataSupport.where("from_mac = ? or to_mac = ?", CurReqPage.getTalker_mac(), CurReqPage.getTalker_mac()).find(Data.class);
+			Log.e("====", "=" + CurReqPage.getTalker_mac() + "=");
+		} else {
+			dataList = DataSupport.findAll(Data.class);// 查询所有信息，未经处理得
 
-		List<Data> dataList = DataSupport.findAll(Data.class);// 查询所有信息，未经处理得
+		}
 		try {
-			savefile(dataList);
+			return savefile(dataList);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -77,26 +76,34 @@ public class htmlOut {
 		return dataList;
 	}
 
-	private static void savefile(List<Data> datasList) throws IOException {
-		BufferedWriter f = null;
-
-		// f = new BufferedWriter(new OutputStreamWriter(new
-		// FileOutputStream(sdPath + "/AReporter/Dialog.html", false)));
-		f = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sdPath + "/Dialog.html", false)));
-		f.write(htmltop());
-		f.write("<br>\n");
-		f.write(addfileitem());// 文件头
-
-		Data mData = new Data();
-		for (int i = 0; i < datasList.size(); i++) {
-			Log.e("newsList.size()", "" + datasList.size());
-			mData = datasList.get(i);
-			f.write("<tr>\n");
-			f.write(addHtmlItem(mData));
-			f.write("</tr>\n");
+	private static boolean savefile(List<Data> datasList) throws IOException {
+		if (datasList.size() > 0) {
+			BufferedWriter bufferedWriter = null;
+			File file = new File(strFilePath);
+			if (!file.exists()) {
+				Log.e("----", "into make file");
+				file.mkdirs();
+				File f = new File(file, "Message.html");
+				f.createNewFile();
+			}
+			bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(strFilePath + "/Message.html", false)));
+			bufferedWriter.write(htmltop());
+			bufferedWriter.write("<br>\n");
+			bufferedWriter.write(addfileitem());// 文件头
+			Data mData = new Data();
+			for (int i = 0; i < datasList.size(); i++) {
+				Log.e("newsList.size()", "" + datasList.size());
+				mData = datasList.get(i);
+				bufferedWriter.write("<tr>\n");
+				bufferedWriter.write(addHtmlItem(mData));
+				bufferedWriter.write("</tr>\n");
+			}
+			bufferedWriter.write(htmlend());
+			bufferedWriter.close();
+			return true;
+		} else {
+			return false;
 		}
-		f.write(htmlend());
-		f.close();
 	}
 
 	private static String htmlend() {
@@ -169,10 +176,6 @@ public class htmlOut {
 
 	private static String addHtmlItem(Data mdata) {
 		String a1 = "";
-		// a1 += "<td>" + mdata.getFrom_mac() + "</td>\n";
-		// a1 += "<td>" + mdata.getFrom_name() + "</td>\n";
-		// a1 += "<td>" + mdata.getTo_mac() + "</td>\n";
-		// a1 += "<td>" + mdata.getTo_name() + "</td>\n";
 
 		a1 += "<td>" + mdata.getFrom_name() + "<br>" + mdata.getFrom_mac() + "</td>\n";
 		a1 += "<td>" + mdata.getTo_name() + "<br>" + mdata.getTo_mac() + "</td>\n";
@@ -191,10 +194,6 @@ public class htmlOut {
 		a1 += "<th colspan=\"4\"><strong>" + filestr + "</strong></th>\n";
 		a1 += "</tr>\n";
 		a1 += "<tr >\n";
-		// a1 += "<th width=\"150\"><strong>发送方地址</strong></th>\n";
-		// a1 += "<th width=\"150\"><strong>发送方昵称 </strong></th>\n";
-		// a1 += "<th width=\"150\"><strong>接收方地址</strong></th>\n";
-		// a1 += "<th width=\"150\"><strong>接收方昵称 </strong></th>\n";
 
 		a1 += "<th width=\"150\"><strong>发送方</strong></th>\n";
 		a1 += "<th width=\"150\"><strong>接收方 </strong></th>\n";

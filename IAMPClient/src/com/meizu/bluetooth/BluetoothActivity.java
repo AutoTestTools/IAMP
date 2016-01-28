@@ -75,8 +75,11 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View arg0) {
-				htmlOut.creathtml();
-				Toast.makeText(getApplicationContext(), "报告已生成，存放于更目录下！", Toast.LENGTH_SHORT).show();
+				if (htmlOut.creathtml()) {
+					Toast.makeText(getApplicationContext(), "对话记录已生成，存放于IAMP文件夹下！", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "对话记录生成失败!请查看对话是否为空。", Toast.LENGTH_SHORT).show();
+				}
 
 			}
 		});
@@ -170,7 +173,7 @@ public class BluetoothActivity extends Activity implements OnClickListener {
 				setCurrentFragment(intent.getIntExtra("tab", R.id.bt_devices));
 				/* 取得默认的蓝牙适配器 */
 				BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-				mBtAdapter.cancelDiscovery();//切换界面后，将扫描设备状态停止
+				mBtAdapter.cancelDiscovery();// 切换界面后，将扫描设备状态停止
 			}
 
 		}
