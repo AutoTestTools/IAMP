@@ -26,7 +26,7 @@ public class MyInfomation extends Fragment implements OnClickListener {
 
 	private Context mContext;
 	private TextView tv_title, tv_name, tv_mac, tv_phone;
-	private ImageButton changeBtn, reNameBtn, rePhoneBtn;
+	private ImageView changeBtn, reNameBtn, rePhoneBtn;
 	BluetoothAdapter mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 	int ME = 0;
 	int PAIR = 1;
@@ -54,9 +54,9 @@ public class MyInfomation extends Fragment implements OnClickListener {
 		tv_name = (TextView) view.findViewById(R.id.info_name);
 		tv_mac = (TextView) view.findViewById(R.id.info_mac);
 		tv_phone = (TextView) view.findViewById(R.id.info_phone);
-		changeBtn = (ImageButton) view.findViewById(R.id.change_title);
-		reNameBtn = (ImageButton) view.findViewById(R.id.re_name);
-		rePhoneBtn = (ImageButton) view.findViewById(R.id.re_phone);
+		changeBtn = (ImageView) view.findViewById(R.id.change_title);
+		reNameBtn = (ImageView) view.findViewById(R.id.re_name);
+		rePhoneBtn = (ImageView) view.findViewById(R.id.re_phone);
 
 		changeBtn.setOnClickListener(this);
 		reNameBtn.setOnClickListener(this);

@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	private static final String LINE = "-----------------------------";
+
 	private ListView list;
 
 	private TextView send, receiver;
@@ -66,7 +68,7 @@ public class MainActivity extends Activity {
 	public static String RESPOND_NOTHING = "com.meizu.socket.respond.nothing";
 	public static String SEND_MESSAGE = "com.meizu.bt.send_msg";
 	
-	public static String permission = "发送广播(需要添加权限:):<uses-permission android:name=\"com.meizu.iamp.client.permission.SEND_MESSAGE\" />";
+	public static String permission = "发送广播(需要添加权限:):<uses-permission android:name=\"com.meizu.iamp.client.permission.SEND_MESSAGE\" />\n"+LINE;
 	
 	
 
@@ -76,8 +78,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		mContext = getApplicationContext();
-
-		new PhoneNumber(mContext);
 
 		send = (TextView) findViewById(R.id.send);
 		// send.setOnTouchListener(doubleTouchListner);
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
 		return "Intent send = new Intent(\"com.meizu.bt.send_msg\");\n"
 				+ "send.putExtra(\"msg\", \"" + msg +"\");\n"
 				+ "mContext.sendBroadcast(send);\n"
-				+ "-----------------------------";
+				+ LINE;
 	}
 
 	private void registerReceiver() {

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.meizu.bluetooth.BluetoothActivity;
 import com.meizu.event.Model;
@@ -108,6 +109,8 @@ public class MainActivity extends Activity {
 			String type = "android/vnd.android.package-archive";
 			intent.setDataAndType(Uri.fromFile(file), type);
 			this.startActivity(intent);
+		}else{
+			Toast.makeText(this, "您已安装该demo!", Toast.LENGTH_SHORT).show();
 		}
 	}
 

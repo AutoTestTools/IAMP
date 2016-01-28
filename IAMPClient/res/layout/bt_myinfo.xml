@@ -18,7 +18,7 @@
             android:textColor="@color/blue"
             android:textSize="24sp" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/change_title"
             android:layout_width="32dip"
             android:layout_height="32dip"
@@ -35,7 +35,7 @@
         android:layout_marginRight="30dip"
         android:layout_marginTop="40dip" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/img_name"
             android:layout_width="32dip"
             android:layout_height="32dip"
@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img_name"
             android:text="@string/info_name"
             android:textColor="@color/blue"
@@ -62,7 +63,7 @@
             android:text="@string/info_title"
             android:textColor="@color/green" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/re_name"
             android:layout_width="32dip"
             android:layout_height="32dip"
@@ -79,7 +80,7 @@
         android:layout_marginTop="20dip"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/img_mac"
             android:layout_width="32dip"
             android:layout_height="32dip"
@@ -91,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img_mac"
             android:text="@string/info_mac"
             android:textSize="16sp"
@@ -115,10 +117,10 @@
         android:layout_marginTop="20dip"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/img_phone"
-            android:layout_width="32dip"
-            android:layout_height="32dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/info_icon"
             android:src="@drawable/ic_phone_bluetooth_speaker_24" />
 
@@ -127,6 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img_phone"
             android:text="@string/info_phone"
             android:textSize="16sp"
@@ -142,7 +145,7 @@
             android:text="@string/info_title"
             android:textColor="@color/green" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/re_phone"
             android:layout_width="32dip"
             android:layout_height="32dip"
