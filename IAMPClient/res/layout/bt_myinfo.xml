@@ -119,8 +119,8 @@
 
         <ImageView
             android:id="@+id/img_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
             android:contentDescription="@string/info_icon"
             android:src="@drawable/ic_phone_bluetooth_speaker_24" />
 
