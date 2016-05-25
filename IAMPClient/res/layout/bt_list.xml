@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <com.meizu.client.ClearEditText
+        <com.zyx.client.ClearEditText
             android:id="@+id/devices_filter_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

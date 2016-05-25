@@ -8,7 +8,7 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
     
-    <uses-permission android:name="com.meizu.iamp.client.permission.SEND_MESSAGE" />
+    <uses-permission android:name="com.zyx.iamp.client.permission.SEND_MESSAGE" />
 
     <application
         android:allowBackup="true"
