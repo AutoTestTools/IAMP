@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.meizu.iamp.client"
+    package="com.zyx.iamp.client"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -20,10 +20,10 @@
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.meizu.iamp.client.permission.SEND_MESSAGE" />
+    <uses-permission android:name="com.zyx.iamp.client.permission.SEND_MESSAGE" />
 
     <permission
-        android:name="com.meizu.iamp.client.permission.SEND_MESSAGE"
+        android:name="com.zyx.iamp.client.permission.SEND_MESSAGE"
         android:protectionLevel="normal" >
     </permission>
 
@@ -34,7 +34,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.meizu.client.MainActivity"
+            android:name="com.zyx.client.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,65 +42,65 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.meizu.socket.NewRoomActivity" >
+        <activity android:name="com.zyx.socket.NewRoomActivity" >
         </activity>
-        <activity android:name="com.meizu.socket.MyRoomActivity" >
+        <activity android:name="com.zyx.socket.MyRoomActivity" >
         </activity>
         <activity
-            android:name="com.meizu.bluetooth.BluetoothActivity"
+            android:name="com.zyx.bluetooth.BluetoothActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
 
         <service
-            android:name="com.meizu.client.ConnectService"
+            android:name="com.zyx.client.ConnectService"
             android:exported="false" >
             <intent-filter android:priority="1000" >
             </intent-filter>
         </service>
 
         <receiver
-            android:name="com.meizu.receiver.BluetoothRequestReceiver"
-            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
+            android:name="com.zyx.receiver.BluetoothRequestReceiver"
+            android:permission="com.zyx.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
-                <action android:name="com.meizu.bt.tab_change" />
-                <action android:name="com.meizu.bt.start_server" />
-                <action android:name="com.meizu.bt.start_client" />
-                <action android:name="com.meizu.bt.stop_server" />
-                <action android:name="com.meizu.bt.stop_client" />
-                <action android:name="com.meizu.bt.close" />
-                <action android:name="com.meizu.bt.send_msg" />
-                <action android:name="com.meizu.bt.reply_msg" />
+                <action android:name="com.zyx.bt.tab_change" />
+                <action android:name="com.zyx.bt.start_server" />
+                <action android:name="com.zyx.bt.start_client" />
+                <action android:name="com.zyx.bt.stop_server" />
+                <action android:name="com.zyx.bt.stop_client" />
+                <action android:name="com.zyx.bt.close" />
+                <action android:name="com.zyx.bt.send_msg" />
+                <action android:name="com.zyx.bt.reply_msg" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.meizu.receiver.SocketRequestReceiver"
+            android:name="com.zyx.receiver.SocketRequestReceiver"
             android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
-                <action android:name="com.meizu.socket.init_socket" />
-                <action android:name="com.meizu.socket.inform_state" />
-                <action android:name="com.meizu.socket.create_room" />
-                <action android:name="com.meizu.socket.join_room" />
-                <action android:name="com.meizu.socket.quit_room" />
-                <action android:name="com.meizu.socket.request.call" />
-                <action android:name="com.meizu.socket.request.message" />
+                <action android:name="com.zyx.socket.init_socket" />
+                <action android:name="com.zyx.socket.inform_state" />
+                <action android:name="com.zyx.socket.create_room" />
+                <action android:name="com.zyx.socket.join_room" />
+                <action android:name="com.zyx.socket.quit_room" />
+                <action android:name="com.zyx.socket.request.call" />
+                <action android:name="com.zyx.socket.request.message" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.meizu.receiver.RespondReceiver"
-            android:permission="com.meizu.iamp.client.permission.SEND_MESSAGE" >
+            android:name="com.zyx.receiver.RespondReceiver"
+            android:permission="com.zyx.iamp.client.permission.SEND_MESSAGE" >
             <intent-filter android:priority="1000" >
-                <action android:name="com.meizu.socket.respond.create_room" />
-                <action android:name="com.meizu.socket.respond.join_room" />
-                <action android:name="com.meizu.socket.respond.call" />
-                <action android:name="com.meizu.socket.respond.receiver.call" />
-                <action android:name="com.meizu.socket.respond.answer.call" />
-                <action android:name="com.meizu.socket.respond.end.call" />
-                <action android:name="com.meizu.socket.respond.message" />
-                <action android:name="com.meizu.socket.respond.nothing" />
-                <action android:name="com.meizu.socket.respond.receive.sms" />
-                <action android:name="com.meizu.socket.respond.receive.mms" />
+                <action android:name="com.zyx.socket.respond.create_room" />
+                <action android:name="com.zyx.socket.respond.join_room" />
+                <action android:name="com.zyx.socket.respond.call" />
+                <action android:name="com.zyx.socket.respond.receiver.call" />
+                <action android:name="com.zyx.socket.respond.answer.call" />
+                <action android:name="com.zyx.socket.respond.end.call" />
+                <action android:name="com.zyx.socket.respond.message" />
+                <action android:name="com.zyx.socket.respond.nothing" />
+                <action android:name="com.zyx.socket.respond.receive.sms" />
+                <action android:name="com.zyx.socket.respond.receive.mms" />
             </intent-filter>
         </receiver>
     </application>
