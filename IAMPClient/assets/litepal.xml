@@ -6,7 +6,7 @@
     <version value="1" ></version>
 
     <list>
-        <mapping class="com.meizu.litepal.Data"></mapping>  
+        <mapping class="com.zyx.litepal.Data"></mapping>  
     </list>
 
 </litepal>
